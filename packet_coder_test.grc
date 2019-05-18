@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.13'?>
+<?grc format='1' created='3.7.11'?>
 <flow_graph>
   <timestamp>Wed May 15 08:45:54 2019</timestamp>
   <block>
@@ -73,20 +73,12 @@
       <value>True</value>
     </param>
     <param>
-      <key>sizing_mode</key>
-      <value>fixed</value>
-    </param>
-    <param>
       <key>thread_safe_setters</key>
       <value></value>
     </param>
     <param>
       <key>title</key>
       <value></value>
-    </param>
-    <param>
-      <key>placement</key>
-      <value>(0,0)</value>
     </param>
   </block>
   <block>
@@ -109,7 +101,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -160,7 +152,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -172,7 +164,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>BPSK_0</value>
+      <value>BPSK</value>
     </param>
     <param>
       <key>rot_sym</key>
@@ -400,7 +392,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -459,7 +451,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(568, 100)</value>
+      <value>(560, 76)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -499,10 +491,10 @@
     </param>
   </block>
   <block>
-    <key>blocks_file_source</key>
+    <key>blks2_tcp_sink</key>
     <param>
-      <key>begin_tag</key>
-      <value>pmt.PMT_NIL</value>
+      <key>addr</key>
+      <value>127.0.0.1</value>
     </param>
     <param>
       <key>alias</key>
@@ -521,12 +513,59 @@
       <value>True</value>
     </param>
     <param>
+      <key>_coordinate</key>
+      <value>(832, 252)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blks2_tcp_sink_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>byte</value>
+    </param>
+    <param>
+      <key>server</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>port</key>
+      <value>9989</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_file_source</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
       <key>file</key>
-      <value>C:\Users\peter\Desktop\acoustic_radio\README.md</value>
+      <value>/home/zijianzh/Desktop/acoustic_radio/README.md</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(144, 124)</value>
+      <value>(144, 100)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -573,11 +612,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(368, 140)</value>
+      <value>(384, 204)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -624,7 +663,7 @@
     </param>
     <param>
       <key>constellation</key>
-      <value>BPSK_0</value>
+      <value>BPSK</value>
     </param>
     <param>
       <key>affinity</key>
@@ -636,7 +675,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>excess_bw</key>
@@ -644,7 +683,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(160, 372)</value>
+      <value>(144, 228)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -687,7 +726,7 @@
     </param>
     <param>
       <key>constellation</key>
-      <value>BPSK_0</value>
+      <value>BPSK</value>
     </param>
     <param>
       <key>affinity</key>
@@ -695,11 +734,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(912, 336)</value>
+      <value>(784, 384)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -750,11 +789,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(576, 536)</value>
+      <value>(344, 424)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -797,7 +836,7 @@
     </param>
     <param>
       <key>cnst</key>
-      <value>BPSK_0</value>
+      <value>BPSK</value>
     </param>
     <param>
       <key>affinity</key>
@@ -805,11 +844,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 540)</value>
+      <value>(560, 428)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -856,7 +895,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>filter_size</key>
@@ -864,7 +903,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(320, 540)</value>
+      <value>(112, 372)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -911,44 +950,9 @@
       <value>ccf</value>
     </param>
   </block>
-  <block>
-    <key>show_text</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1208, 344)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>show_text_0</value>
-    </param>
-  </block>
   <connection>
     <source_block_id>blks2_packet_decoder_0</source_block_id>
-    <sink_block_id>show_text_0</sink_block_id>
+    <sink_block_id>digital_constellation_modulator_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -960,25 +964,25 @@
   </connection>
   <connection>
     <source_block_id>blocks_file_source_0</source_block_id>
+    <sink_block_id>blks2_packet_decoder_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_file_source_0</source_block_id>
+    <sink_block_id>blks2_packet_encoder_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_file_source_0</source_block_id>
     <sink_block_id>blocks_throttle_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_throttle_0</source_block_id>
-    <sink_block_id>blks2_packet_decoder_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_throttle_0</source_block_id>
     <sink_block_id>blks2_packet_encoder_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_throttle_0</source_block_id>
-    <sink_block_id>digital_constellation_modulator_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -990,7 +994,7 @@
   </connection>
   <connection>
     <source_block_id>digital_constellation_receiver_cb_0</source_block_id>
-    <sink_block_id>show_text_0</sink_block_id>
+    <sink_block_id>blks2_tcp_sink_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
