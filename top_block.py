@@ -3,8 +3,9 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# GNU Radio version: 3.7.13.5
+# Generated: Sat May 18 16:58:25 2019
 ##################################################
+
 
 if __name__ == '__main__':
     import ctypes
@@ -16,45 +17,26 @@ if __name__ == '__main__':
         except:
             print "Warning: failed to XInitThreads()"
 
-from PyQt4 import Qt
 from gnuradio import blocks
+from gnuradio import digital
 from gnuradio import eng_notation
 from gnuradio import gr
+from gnuradio import wxgui
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
+from gnuradio.wxgui import scopesink2
 from grc_gnuradio import blks2 as grc_blks2
+from grc_gnuradio import wxgui as grc_wxgui
 from optparse import OptionParser
-import pmt
-import sys
-from gnuradio import qtgui
+import wx
 
 
-class top_block(gr.top_block, Qt.QWidget):
+class top_block(grc_wxgui.top_block_gui):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Top Block")
-        Qt.QWidget.__init__(self)
-        self.setWindowTitle("Top Block")
-        qtgui.util.check_set_qss()
-        try:
-            self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
-        except:
-            pass
-        self.top_scroll_layout = Qt.QVBoxLayout()
-        self.setLayout(self.top_scroll_layout)
-        self.top_scroll = Qt.QScrollArea()
-        self.top_scroll.setFrameStyle(Qt.QFrame.NoFrame)
-        self.top_scroll_layout.addWidget(self.top_scroll)
-        self.top_scroll.setWidgetResizable(True)
-        self.top_widget = Qt.QWidget()
-        self.top_scroll.setWidget(self.top_widget)
-        self.top_layout = Qt.QVBoxLayout(self.top_widget)
-        self.top_grid_layout = Qt.QGridLayout()
-        self.top_layout.addLayout(self.top_grid_layout)
-
-        self.settings = Qt.QSettings("GNU Radio", "top_block")
-        self.restoreGeometry(self.settings.value("geometry").toByteArray())
-
+        grc_wxgui.top_block_gui.__init__(self, title="Top Block")
+        _icon_path = "/usr/share/icons/hicolor/32x32/apps/gnuradio-grc.png"
+        self.SetIcon(wx.Icon(_icon_path, wx.BITMAP_TYPE_ANY))
 
         ##################################################
         # Variables
@@ -66,9 +48,24 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
+        self.wxgui_scopesink2_0 = scopesink2.scope_sink_f(
+        	self.GetWin(),
+        	title='Scope Plot',
+        	sample_rate=samp_rate,
+        	v_scale=0,
+        	v_offset=0,
+        	t_scale=0,
+        	ac_couple=False,
+        	xy_mode=False,
+        	num_inputs=1,
+        	trig_mode=wxgui.TRIG_MODE_AUTO,
+        	y_axis_label='Counts',
+        )
+        self.Add(self.wxgui_scopesink2_0.win)
+        self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bf((0,1), 1)
+        self.blocks_packed_to_unpacked_xx_1 = blocks.packed_to_unpacked_bb(1, gr.GR_MSB_FIRST)
         self.blocks_packed_to_unpacked_xx_0 = blocks.packed_to_unpacked_bb(1, gr.GR_MSB_FIRST)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/Users/peterzhu/Desktop/acoustic_radio/test_input.txt', False)
-        self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/zijianzh/Desktop/acoustic_radio/test_input.txt', True)
         self.blks2_tcp_sink_0 = grc_blks2.tcp_sink(
         	itemsize=gr.sizeof_char*1,
         	addr='127.0.0.1',
@@ -91,26 +88,23 @@ class top_block(gr.top_block, Qt.QWidget):
         	),
         )
 
-
-
         ##################################################
         # Connections
         ##################################################
         self.connect((self.blks2_packet_decoder_0, 0), (self.blks2_tcp_sink_0, 0))
         self.connect((self.blks2_packet_encoder_0_0, 0), (self.blocks_packed_to_unpacked_xx_0, 0))
         self.connect((self.blocks_file_source_0, 0), (self.blks2_packet_encoder_0_0, 0))
+        self.connect((self.blocks_file_source_0, 0), (self.blocks_packed_to_unpacked_xx_1, 0))
         self.connect((self.blocks_packed_to_unpacked_xx_0, 0), (self.blks2_packet_decoder_0, 0))
-
-    def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "top_block")
-        self.settings.setValue("geometry", self.saveGeometry())
-        event.accept()
+        self.connect((self.blocks_packed_to_unpacked_xx_1, 0), (self.digital_chunks_to_symbols_xx_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.wxgui_scopesink2_0, 0))
 
     def get_samp_rate(self):
         return self.samp_rate
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
+        self.wxgui_scopesink2_0.set_sample_rate(self.samp_rate)
 
     def get_code2(self):
         return self.code2
@@ -127,21 +121,9 @@ class top_block(gr.top_block, Qt.QWidget):
 
 def main(top_block_cls=top_block, options=None):
 
-    from distutils.version import StrictVersion
-    if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):
-        style = gr.prefs().get_string('qtgui', 'style', 'raster')
-        Qt.QApplication.setGraphicsSystem(style)
-    qapp = Qt.QApplication(sys.argv)
-
     tb = top_block_cls()
-    tb.start()
-    tb.show()
-
-    def quitting():
-        tb.stop()
-        tb.wait()
-    qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
-    qapp.exec_()
+    tb.Start(True)
+    tb.Wait()
 
 
 if __name__ == '__main__':
