@@ -3,8 +3,10 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Packet Coder Test
-# Generated: Thu May 23 15:14:49 2019
+# Generated: Fri May 24 15:39:21 2019
 ##################################################
+
+from distutils.version import StrictVersion
 
 if __name__ == '__main__':
     import ctypes
@@ -16,7 +18,8 @@ if __name__ == '__main__':
         except:
             print "Warning: failed to XInitThreads()"
 
-from PyQt4 import Qt
+from PyQt5 import Qt
+from PyQt5 import Qt, QtCore
 from gnuradio import blocks
 from gnuradio import digital
 from gnuradio import eng_notation
@@ -26,9 +29,9 @@ from gnuradio import qtgui
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from gnuradio.qtgui import Range, RangeWidget
-from grc_gnuradio import blks2 as grc_blks2
 from optparse import OptionParser
-import pmt
+import myblocks
+import numpy
 import sip
 import sys
 from gnuradio import qtgui
@@ -58,8 +61,11 @@ class packet_coder_test(gr.top_block, Qt.QWidget):
         self.top_layout.addLayout(self.top_grid_layout)
 
         self.settings = Qt.QSettings("GNU Radio", "packet_coder_test")
-        self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
+        if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
+            self.restoreGeometry(self.settings.value("geometry").toByteArray())
+        else:
+            self.restoreGeometry(self.settings.value("geometry", type=QtCore.QByteArray))
 
         ##################################################
         # Variables
@@ -73,6 +79,7 @@ class packet_coder_test(gr.top_block, Qt.QWidget):
         self.rrc_taps_0 = rrc_taps_0 = firdes.root_raised_cosine(1, sps, 1, excess_bw, 45)
         self.rrc_taps = rrc_taps = firdes.root_raised_cosine(nfilts, nfilts, 1.0/float(sps), 0.35, 45*nfilts)
         self.phase_bw = phase_bw = 0.0628
+        self.delay = delay = 0
 
         self.BPSK = BPSK = digital.constellation_qpsk().base()
 
@@ -82,14 +89,117 @@ class packet_coder_test(gr.top_block, Qt.QWidget):
         ##################################################
         self._timing_loop_bw_range = Range(0.0, 0.2, 0.01, 6.28/100.0, 200)
         self._timing_loop_bw_win = RangeWidget(self._timing_loop_bw_range, self.set_timing_loop_bw, 'Time: BW', "slider", float)
-        self.top_grid_layout.addWidget(self._timing_loop_bw_win, 0, 0, 1, 2)
-        for r in range(0, 1):
-            self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(0, 2):
-            self.top_grid_layout.setColumnStretch(c, 1)
+        self.top_grid_layout.addWidget(self._timing_loop_bw_win, 0, 0, 1, 1)
+        [self.top_grid_layout.setRowStretch(r,1) for r in range(0,1)]
+        [self.top_grid_layout.setColumnStretch(c,1) for c in range(0,1)]
+        self._delay_range = Range(0, 200, 1, 0, 200)
+        self._delay_win = RangeWidget(self._delay_range, self.set_delay, "delay", "counter_slider", float)
+        self.top_grid_layout.addWidget(self._delay_win, 0, 1, 1, 1)
+        [self.top_grid_layout.setRowStretch(r,1) for r in range(0,1)]
+        [self.top_grid_layout.setColumnStretch(c,1) for c in range(1,2)]
+        self.qtgui_time_sink_x_0_0 = qtgui.time_sink_f(
+        	500, #size
+        	samp_rate, #samp_rate
+        	'Output Stream', #name
+        	2 #number of inputs
+        )
+        self.qtgui_time_sink_x_0_0.set_update_time(0.10)
+        self.qtgui_time_sink_x_0_0.set_y_axis(-1, 2)
+
+        self.qtgui_time_sink_x_0_0.set_y_label('Amplitude', "")
+
+        self.qtgui_time_sink_x_0_0.enable_tags(-1, True)
+        self.qtgui_time_sink_x_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_0_0.enable_autoscale(False)
+        self.qtgui_time_sink_x_0_0.enable_grid(False)
+        self.qtgui_time_sink_x_0_0.enable_axis_labels(True)
+        self.qtgui_time_sink_x_0_0.enable_control_panel(False)
+        self.qtgui_time_sink_x_0_0.enable_stem_plot(False)
+
+        if not True:
+          self.qtgui_time_sink_x_0_0.disable_legend()
+
+        labels = ['Rx Bits', 'Tx Bits', '', '', '',
+                  '', '', '', '', '']
+        widths = [1, 1, 1, 1, 1,
+                  1, 1, 1, 1, 1]
+        colors = ["blue", "red", "green", "black", "cyan",
+                  "magenta", "yellow", "dark red", "dark green", "blue"]
+        styles = [1, 1, 1, 1, 1,
+                  1, 1, 1, 1, 1]
+        markers = [-1, -1, -1, -1, -1,
+                   -1, -1, -1, -1, -1]
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+                  1.0, 1.0, 1.0, 1.0, 1.0]
+
+        for i in xrange(2):
+            if len(labels[i]) == 0:
+                self.qtgui_time_sink_x_0_0.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_time_sink_x_0_0.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_0_0.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_0_0.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_0_0.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_0_0.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_0_0.set_line_alpha(i, alphas[i])
+
+        self._qtgui_time_sink_x_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0.pyqwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_0_win, 3, 0, 1, 2)
+        [self.top_grid_layout.setRowStretch(r,1) for r in range(3,4)]
+        [self.top_grid_layout.setColumnStretch(c,1) for c in range(0,2)]
+        self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
+        	1024, #size
+        	samp_rate, #samp_rate
+        	"", #name
+        	1 #number of inputs
+        )
+        self.qtgui_time_sink_x_0.set_update_time(0.10)
+        self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
+
+        self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
+
+        self.qtgui_time_sink_x_0.enable_tags(-1, True)
+        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_0.enable_autoscale(False)
+        self.qtgui_time_sink_x_0.enable_grid(False)
+        self.qtgui_time_sink_x_0.enable_axis_labels(True)
+        self.qtgui_time_sink_x_0.enable_control_panel(False)
+        self.qtgui_time_sink_x_0.enable_stem_plot(False)
+
+        if not True:
+          self.qtgui_time_sink_x_0.disable_legend()
+
+        labels = ['', '', '', '', '',
+                  '', '', '', '', '']
+        widths = [1, 1, 1, 1, 1,
+                  1, 1, 1, 1, 1]
+        colors = ["blue", "red", "green", "black", "cyan",
+                  "magenta", "yellow", "dark red", "dark green", "blue"]
+        styles = [1, 1, 1, 1, 1,
+                  1, 1, 1, 1, 1]
+        markers = [-1, -1, -1, -1, -1,
+                   -1, -1, -1, -1, -1]
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+                  1.0, 1.0, 1.0, 1.0, 1.0]
+
+        for i in xrange(1):
+            if len(labels[i]) == 0:
+                self.qtgui_time_sink_x_0.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_time_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_0.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_0.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_0.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
+
+        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_win, 2, 0, 1, 2)
+        [self.top_grid_layout.setRowStretch(r,1) for r in range(2,3)]
+        [self.top_grid_layout.setColumnStretch(c,1) for c in range(0,2)]
         self.qtgui_const_sink_x_0_0 = qtgui.const_sink_c(
         	1024, #size
-        	"", #name
+        	"TX", #name
         	1 #number of inputs
         )
         self.qtgui_const_sink_x_0_0.set_update_time(0.10)
@@ -128,13 +238,11 @@ class packet_coder_test(gr.top_block, Qt.QWidget):
 
         self._qtgui_const_sink_x_0_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_0_win, 1, 0, 1, 1)
-        for r in range(1, 2):
-            self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(0, 1):
-            self.top_grid_layout.setColumnStretch(c, 1)
+        [self.top_grid_layout.setRowStretch(r,1) for r in range(1,2)]
+        [self.top_grid_layout.setColumnStretch(c,1) for c in range(0,1)]
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
         	1024, #size
-        	"", #name
+        	"RX", #name
         	1 #number of inputs
         )
         self.qtgui_const_sink_x_0.set_update_time(0.10)
@@ -173,13 +281,14 @@ class packet_coder_test(gr.top_block, Qt.QWidget):
 
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win, 1, 1, 1, 1)
-        for r in range(1, 2):
-            self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(1, 2):
-            self.top_grid_layout.setColumnStretch(c, 1)
+        [self.top_grid_layout.setRowStretch(r,1) for r in range(1,2)]
+        [self.top_grid_layout.setColumnStretch(c,1) for c in range(1,2)]
+        self.myblocks_qpsk_demod_v2_0 = myblocks.qpsk_demod_v2(0)
         self.fir_filter_xxx_0 = filter.fir_filter_ccc(1, (rrc_taps_0))
         self.fir_filter_xxx_0.declare_sample_delay(0)
         self.digital_pfb_clock_sync_xxx_0 = digital.pfb_clock_sync_ccf(sps, timing_loop_bw, (rrc_taps), nfilts, nfilts/2, 1.5, 1)
+        self.digital_map_bb_0 = digital.map_bb(([0,3,2,1]))
+        self.digital_diff_decoder_bb_0 = digital.diff_decoder_bb(4)
         self.digital_constellation_modulator_0 = digital.generic_mod(
           constellation=BPSK,
           differential=True,
@@ -189,31 +298,37 @@ class packet_coder_test(gr.top_block, Qt.QWidget):
           verbose=False,
           log=False,
           )
+        self.blocks_unpack_k_bits_bb_0_0 = blocks.unpack_k_bits_bb(8)
+        self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(2)
         self.blocks_throttle_1 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, 'C:\\Users\\peter\\Desktop\\acoustic_radio\\audio_modem1.grc', True)
-        self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
-        self.blks2_packet_encoder_0 = grc_blks2.packet_mod_b(grc_blks2.packet_encoder(
-        		samples_per_symbol=1,
-        		bits_per_symbol=2,
-        		preamble='',
-        		access_code='',
-        		pad_for_usrp=False,
-        	),
-        	payload_length=4,
-        )
-
-
+        self.blocks_sub_xx_0 = blocks.sub_ff(1)
+        self.blocks_delay_0 = blocks.delay(gr.sizeof_float*1, int(delay))
+        self.blocks_char_to_float_0_0_0 = blocks.char_to_float(1, 1)
+        self.blocks_char_to_float_0_0 = blocks.char_to_float(1, 1)
+        self.analog_random_source_x_0 = blocks.vector_source_b(map(int, numpy.random.randint(0, 256, 1000)), True)
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.blks2_packet_encoder_0, 0), (self.digital_constellation_modulator_0, 0))
-        self.connect((self.blocks_file_source_0, 0), (self.blks2_packet_encoder_0, 0))
+        self.connect((self.analog_random_source_x_0, 0), (self.blocks_unpack_k_bits_bb_0_0, 0))
+        self.connect((self.analog_random_source_x_0, 0), (self.digital_constellation_modulator_0, 0))
+        self.connect((self.blocks_char_to_float_0_0, 0), (self.blocks_sub_xx_0, 1))
+        self.connect((self.blocks_char_to_float_0_0, 0), (self.qtgui_time_sink_x_0_0, 0))
+        self.connect((self.blocks_char_to_float_0_0_0, 0), (self.blocks_delay_0, 0))
+        self.connect((self.blocks_delay_0, 0), (self.blocks_sub_xx_0, 0))
+        self.connect((self.blocks_delay_0, 0), (self.qtgui_time_sink_x_0_0, 1))
+        self.connect((self.blocks_sub_xx_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.blocks_throttle_1, 0), (self.fir_filter_xxx_0, 0))
+        self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.blocks_char_to_float_0_0, 0))
+        self.connect((self.blocks_unpack_k_bits_bb_0_0, 0), (self.blocks_char_to_float_0_0_0, 0))
         self.connect((self.digital_constellation_modulator_0, 0), (self.blocks_throttle_1, 0))
+        self.connect((self.digital_diff_decoder_bb_0, 0), (self.digital_map_bb_0, 0))
+        self.connect((self.digital_map_bb_0, 0), (self.blocks_unpack_k_bits_bb_0, 0))
+        self.connect((self.digital_pfb_clock_sync_xxx_0, 0), (self.myblocks_qpsk_demod_v2_0, 0))
         self.connect((self.digital_pfb_clock_sync_xxx_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.fir_filter_xxx_0, 0), (self.digital_pfb_clock_sync_xxx_0, 0))
         self.connect((self.fir_filter_xxx_0, 0), (self.qtgui_const_sink_x_0_0, 0))
+        self.connect((self.myblocks_qpsk_demod_v2_0, 0), (self.digital_diff_decoder_bb_0, 0))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "packet_coder_test")
@@ -260,6 +375,8 @@ class packet_coder_test(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
+        self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
+        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.blocks_throttle_1.set_sample_rate(self.samp_rate)
 
     def get_rrc_taps_0(self):
@@ -282,6 +399,13 @@ class packet_coder_test(gr.top_block, Qt.QWidget):
     def set_phase_bw(self, phase_bw):
         self.phase_bw = phase_bw
 
+    def get_delay(self):
+        return self.delay
+
+    def set_delay(self, delay):
+        self.delay = delay
+        self.blocks_delay_0.set_dly(int(self.delay))
+
     def get_BPSK(self):
         return self.BPSK
 
@@ -291,8 +415,7 @@ class packet_coder_test(gr.top_block, Qt.QWidget):
 
 def main(top_block_cls=packet_coder_test, options=None):
 
-    from distutils.version import StrictVersion
-    if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):
+    if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')
         Qt.QApplication.setGraphicsSystem(style)
     qapp = Qt.QApplication(sys.argv)
@@ -304,7 +427,7 @@ def main(top_block_cls=packet_coder_test, options=None):
     def quitting():
         tb.stop()
         tb.wait()
-    qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
+    qapp.aboutToQuit.connect(quitting)
     qapp.exec_()
 
 

@@ -1,1 +1,2 @@
-Hello Houghton, is it still snowing?  
+This is a test file.
+You see this in output file when you completed this chanllenge. 

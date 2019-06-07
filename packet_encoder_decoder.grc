@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.13'?>
+<?grc format='1' created='3.7.11'?>
 <flow_graph>
   <timestamp>Mon Oct 26 14:36:17 2015</timestamp>
   <block>
@@ -73,20 +73,12 @@
       <value>True</value>
     </param>
     <param>
-      <key>sizing_mode</key>
-      <value>fixed</value>
-    </param>
-    <param>
       <key>thread_safe_setters</key>
       <value></value>
     </param>
     <param>
       <key>title</key>
       <value></value>
-    </param>
-    <param>
-      <key>placement</key>
-      <value>(0,0)</value>
     </param>
   </block>
   <block>
@@ -182,7 +174,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(32, 364)</value>
+      <value>(24, 324)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -217,11 +209,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(808, 132)</value>
+      <value>(848, 180)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -304,7 +296,7 @@
     </param>
     <param>
       <key>payload_length</key>
-      <value>4</value>
+      <value>1</value>
     </param>
     <param>
       <key>preamble</key>
@@ -339,7 +331,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1016, 244)</value>
+      <value>(1048, 244)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -367,10 +359,10 @@
     </param>
   </block>
   <block>
-    <key>blocks_file_source</key>
+    <key>blocks_file_sink</key>
     <param>
-      <key>begin_tag</key>
-      <value>pmt.PMT_NIL</value>
+      <key>append</key>
+      <value>False</value>
     </param>
     <param>
       <key>alias</key>
@@ -390,7 +382,54 @@
     </param>
     <param>
       <key>file</key>
-      <value>C:\Users\peter\Desktop\acoustic_radio\README.md</value>
+      <value>/home/zijianzh/Desktop/acoustic_radio/debug.dat</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1008, 4)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_file_sink_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>byte</value>
+    </param>
+    <param>
+      <key>unbuffered</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_file_source</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>file</key>
+      <value>/home/zijianzh/Desktop/acoustic_radio/test_input.txt</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -508,7 +547,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(232, 364)</value>
+      <value>(224, 324)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -551,11 +590,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(224, 108)</value>
+      <value>(248, 172)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -614,7 +653,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(440, 356)</value>
+      <value>(448, 268)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -623,6 +662,65 @@
     <param>
       <key>id</key>
       <value>digital_chunks_to_symbols_xx_0</value>
+    </param>
+    <param>
+      <key>in_type</key>
+      <value>byte</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_ports</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>out_type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>symbol_table</key>
+      <value>0,1</value>
+    </param>
+  </block>
+  <block>
+    <key>digital_chunks_to_symbols_xx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>dimension</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(848, 372)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>digital_chunks_to_symbols_xx_1</value>
     </param>
     <param>
       <key>in_type</key>
@@ -777,20 +875,12 @@
       <value></value>
     </param>
     <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
       <value>(1032, 96)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value></value>
     </param>
     <param>
       <key>_rotation</key>
@@ -799,6 +889,14 @@
     <param>
       <key>id</key>
       <value>show_text_0</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value></value>
     </param>
   </block>
   <block>
@@ -809,7 +907,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -826,6 +924,33 @@
     <param>
       <key>stream_id</key>
       <value>input_file</value>
+    </param>
+  </block>
+  <block>
+    <key>virtual_sink</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(872, 268)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>virtual_sink_1</value>
+    </param>
+    <param>
+      <key>stream_id</key>
+      <value></value>
     </param>
   </block>
   <block>
@@ -852,7 +977,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(664, 356)</value>
+      <value>(664, 284)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -872,7 +997,7 @@
     </param>
     <param>
       <key>num_inputs</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>samp_rate</key>
@@ -929,13 +1054,37 @@
   </connection>
   <connection>
     <source_block_id>blks2_packet_decoder_0</source_block_id>
+    <sink_block_id>digital_chunks_to_symbols_xx_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blks2_packet_decoder_0</source_block_id>
     <sink_block_id>show_text_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blks2_packet_decoder_0</source_block_id>
+    <sink_block_id>virtual_sink_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blks2_packet_encoder_0_0</source_block_id>
+    <sink_block_id>blocks_file_sink_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>blks2_packet_encoder_0_0</source_block_id>
     <sink_block_id>blocks_packed_to_unpacked_xx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_file_source_0</source_block_id>
+    <sink_block_id>blks2_packet_encoder_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -976,10 +1125,10 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>digital_chunks_to_symbols_xx_0</source_block_id>
+    <source_block_id>digital_chunks_to_symbols_xx_1</source_block_id>
     <sink_block_id>wxgui_scopesink2_0</sink_block_id>
     <source_key>0</source_key>
-    <sink_key>0</sink_key>
+    <sink_key>1</sink_key>
   </connection>
   <connection>
     <source_block_id>digital_diff_decoder_bb_0</source_block_id>

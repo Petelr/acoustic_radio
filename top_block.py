@@ -3,8 +3,9 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Thu May 23 14:54:02 2019
+# Generated: Fri Jun  7 14:24:11 2019
 ##################################################
+
 
 if __name__ == '__main__':
     import ctypes
@@ -16,12 +17,10 @@ if __name__ == '__main__':
         except:
             print "Warning: failed to XInitThreads()"
 
-from PyQt4 import Qt
 from gnuradio import blocks
 from gnuradio import digital
 from gnuradio import eng_notation
 from gnuradio import gr
-from gnuradio import qtgui
 from gnuradio import wxgui
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
@@ -29,9 +28,6 @@ from gnuradio.wxgui import scopesink2
 from grc_gnuradio import blks2 as grc_blks2
 from grc_gnuradio import wxgui as grc_wxgui
 from optparse import OptionParser
-import display
-import pmt
-import sip
 import wx
 
 
@@ -39,7 +35,7 @@ class top_block(grc_wxgui.top_block_gui):
 
     def __init__(self):
         grc_wxgui.top_block_gui.__init__(self, title="Top Block")
-        _icon_path = "C:\Program Files\GNURadio-3.7\share\icons\hicolor\scalable/apps\gnuradio-grc.png"
+        _icon_path = "/usr/share/icons/hicolor/32x32/apps/gnuradio-grc.png"
         self.SetIcon(wx.Icon(_icon_path, wx.BITMAP_TYPE_ANY))
 
         ##################################################
@@ -66,42 +62,44 @@ class top_block(grc_wxgui.top_block_gui):
         	y_axis_label='Counts',
         )
         self.Add(self.wxgui_scopesink2_0.win)
-        self.show_text_0 = display.show_text()
-        self._show_text_0_win = sip.wrapinstance(self.show_text_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._show_text_0_win)
+        self.digital_diff_encoder_bb_0 = digital.diff_encoder_bb(2)
+        self.digital_diff_decoder_bb_0 = digital.diff_decoder_bb(2)
         self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bf((0,1), 1)
+        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_char*1, samp_rate,True)
         self.blocks_packed_to_unpacked_xx_1 = blocks.packed_to_unpacked_bb(1, gr.GR_MSB_FIRST)
         self.blocks_packed_to_unpacked_xx_0 = blocks.packed_to_unpacked_bb(1, gr.GR_MSB_FIRST)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, 'C:\\Users\\peter\\Desktop\\acoustic_radio\\README.md', True)
-        self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/zijianzh/Desktop/acoustic_radio/1.jpg', False)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/zijianzh/Desktop/acoustic_radio/2.jpg', False)
+        self.blocks_file_sink_0.set_unbuffered(True)
         self.blks2_packet_encoder_0_0 = grc_blks2.packet_mod_b(grc_blks2.packet_encoder(
         		samples_per_symbol=1,
-        		bits_per_symbol=2,
+        		bits_per_symbol=1,
         		preamble='',
-        		access_code='',
+        		access_code=code1,
         		pad_for_usrp=False,
         	),
         	payload_length=4,
         )
         self.blks2_packet_decoder_0 = grc_blks2.packet_demod_b(grc_blks2.packet_decoder(
-        		access_code='',
+        		access_code=code1,
         		threshold=-1,
         		callback=lambda ok, payload: self.blks2_packet_decoder_0.recv_pkt(ok, payload),
         	),
         )
 
-
-
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.blks2_packet_decoder_0, 0), (self.show_text_0, 0))
+        self.connect((self.blks2_packet_decoder_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.blks2_packet_encoder_0_0, 0), (self.blocks_packed_to_unpacked_xx_0, 0))
-        self.connect((self.blocks_file_source_0, 0), (self.blks2_packet_encoder_0_0, 0))
         self.connect((self.blocks_file_source_0, 0), (self.blocks_packed_to_unpacked_xx_1, 0))
-        self.connect((self.blocks_packed_to_unpacked_xx_0, 0), (self.blks2_packet_decoder_0, 0))
+        self.connect((self.blocks_file_source_0, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.blocks_packed_to_unpacked_xx_0, 0), (self.digital_diff_encoder_bb_0, 0))
         self.connect((self.blocks_packed_to_unpacked_xx_1, 0), (self.digital_chunks_to_symbols_xx_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.blks2_packet_encoder_0_0, 0))
         self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.wxgui_scopesink2_0, 0))
+        self.connect((self.digital_diff_decoder_bb_0, 0), (self.blks2_packet_decoder_0, 0))
+        self.connect((self.digital_diff_encoder_bb_0, 0), (self.digital_diff_decoder_bb_0, 0))
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -109,6 +107,7 @@ class top_block(grc_wxgui.top_block_gui):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.wxgui_scopesink2_0.set_sample_rate(self.samp_rate)
+        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
 
     def get_code2(self):
         return self.code2
