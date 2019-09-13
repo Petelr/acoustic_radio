@@ -59,4 +59,4 @@ class qa_qpsk_demod_v2 (gr_unittest.TestCase):
         self.assertFloatTuplesAlmostEqual (expected_result, result_data, 6)
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_qpsk_demod, "qpsk_demod_v2.xml")
+    gr_unittest.run(qa_qpsk_demod_v2, "qpsk_demod_v2.xml")

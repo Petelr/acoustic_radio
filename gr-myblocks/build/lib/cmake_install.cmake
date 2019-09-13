@@ -1,4 +1,4 @@
-# Install script for directory: /home/zijianzh/Desktop/acoustic_radio/gr-myblocks/lib
+# Install script for directory: /home/peter/Desktop/acoustic_radio/gr-myblocks/lib
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/zijianzh/Desktop/acoustic_radio/gr-myblocks
+CMAKE_SOURCE_DIR = /home/peter/Desktop/acoustic_radio/gr-myblocks
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/zijianzh/Desktop/acoustic_radio/gr-myblocks/build
+CMAKE_BINARY_DIR = /home/peter/Desktop/acoustic_radio/gr-myblocks/build
 
 # Utility rule file for pygen_apps_9a6dd.
 
@@ -63,10 +63,10 @@ apps/CMakeFiles/pygen_apps_9a6dd.dir/build: pygen_apps_9a6dd
 .PHONY : apps/CMakeFiles/pygen_apps_9a6dd.dir/build
 
 apps/CMakeFiles/pygen_apps_9a6dd.dir/clean:
-	cd /home/zijianzh/Desktop/acoustic_radio/gr-myblocks/build/apps && $(CMAKE_COMMAND) -P CMakeFiles/pygen_apps_9a6dd.dir/cmake_clean.cmake
+	cd /home/peter/Desktop/acoustic_radio/gr-myblocks/build/apps && $(CMAKE_COMMAND) -P CMakeFiles/pygen_apps_9a6dd.dir/cmake_clean.cmake
 .PHONY : apps/CMakeFiles/pygen_apps_9a6dd.dir/clean
 
 apps/CMakeFiles/pygen_apps_9a6dd.dir/depend:
-	cd /home/zijianzh/Desktop/acoustic_radio/gr-myblocks/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/zijianzh/Desktop/acoustic_radio/gr-myblocks /home/zijianzh/Desktop/acoustic_radio/gr-myblocks/apps /home/zijianzh/Desktop/acoustic_radio/gr-myblocks/build /home/zijianzh/Desktop/acoustic_radio/gr-myblocks/build/apps /home/zijianzh/Desktop/acoustic_radio/gr-myblocks/build/apps/CMakeFiles/pygen_apps_9a6dd.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/peter/Desktop/acoustic_radio/gr-myblocks/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/peter/Desktop/acoustic_radio/gr-myblocks /home/peter/Desktop/acoustic_radio/gr-myblocks/apps /home/peter/Desktop/acoustic_radio/gr-myblocks/build /home/peter/Desktop/acoustic_radio/gr-myblocks/build/apps /home/peter/Desktop/acoustic_radio/gr-myblocks/build/apps/CMakeFiles/pygen_apps_9a6dd.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : apps/CMakeFiles/pygen_apps_9a6dd.dir/depend
 

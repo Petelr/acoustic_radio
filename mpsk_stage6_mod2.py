@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Mpsk Stage6
-# Generated: Thu Sep 12 19:51:09 2019
+# Title: Mpsk Stage6 Mod2
+# Generated: Thu Sep 12 19:53:31 2019
 ##################################################
 
 from distutils.version import StrictVersion
@@ -37,12 +37,12 @@ import sys
 from gnuradio import qtgui
 
 
-class mpsk_stage6(gr.top_block, Qt.QWidget):
+class mpsk_stage6_mod2(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Mpsk Stage6")
+        gr.top_block.__init__(self, "Mpsk Stage6 Mod2")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Mpsk Stage6")
+        self.setWindowTitle("Mpsk Stage6 Mod2")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -60,7 +60,7 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "mpsk_stage6")
+        self.settings = Qt.QSettings("GNU Radio", "mpsk_stage6_mod2")
 
         if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
             self.restoreGeometry(self.settings.value("geometry").toByteArray())
@@ -473,7 +473,7 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
         self.connect((self.myblocks_qpsk_demod_v2_0, 0), (self.digital_map_bb_0, 0))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "mpsk_stage6")
+        self.settings = Qt.QSettings("GNU Radio", "mpsk_stage6_mod2")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -589,7 +589,7 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
         self.a_code = a_code
 
 
-def main(top_block_cls=mpsk_stage6, options=None):
+def main(top_block_cls=mpsk_stage6_mod2, options=None):
 
     if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')

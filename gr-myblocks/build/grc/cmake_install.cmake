@@ -1,4 +1,4 @@
-# Install script for directory: /home/zijianzh/Desktop/acoustic_radio/gr-myblocks/grc
+# Install script for directory: /home/peter/Desktop/acoustic_radio/gr-myblocks/grc
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,6 +38,6 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/grc/blocks" TYPE FILE FILES "/home/zijianzh/Desktop/acoustic_radio/gr-myblocks/grc/myblocks_qpsk_demod_v2.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/grc/blocks" TYPE FILE FILES "/home/peter/Desktop/acoustic_radio/gr-myblocks/grc/myblocks_qpsk_demod_v2.xml")
 endif()
 

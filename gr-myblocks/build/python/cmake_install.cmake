@@ -1,4 +1,4 @@
-# Install script for directory: /home/zijianzh/Desktop/acoustic_radio/gr-myblocks/python
+# Install script for directory: /home/peter/Desktop/acoustic_radio/gr-myblocks/python
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,17 +39,17 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/myblocks" TYPE FILE FILES
-    "/home/zijianzh/Desktop/acoustic_radio/gr-myblocks/python/__init__.py"
-    "/home/zijianzh/Desktop/acoustic_radio/gr-myblocks/python/qpsk_demod_v2.py"
+    "/home/peter/Desktop/acoustic_radio/gr-myblocks/python/__init__.py"
+    "/home/peter/Desktop/acoustic_radio/gr-myblocks/python/qpsk_demod_v2.py"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/myblocks" TYPE FILE FILES
-    "/home/zijianzh/Desktop/acoustic_radio/gr-myblocks/build/python/__init__.pyc"
-    "/home/zijianzh/Desktop/acoustic_radio/gr-myblocks/build/python/qpsk_demod_v2.pyc"
-    "/home/zijianzh/Desktop/acoustic_radio/gr-myblocks/build/python/__init__.pyo"
-    "/home/zijianzh/Desktop/acoustic_radio/gr-myblocks/build/python/qpsk_demod_v2.pyo"
+    "/home/peter/Desktop/acoustic_radio/gr-myblocks/build/python/__init__.pyc"
+    "/home/peter/Desktop/acoustic_radio/gr-myblocks/build/python/qpsk_demod_v2.pyc"
+    "/home/peter/Desktop/acoustic_radio/gr-myblocks/build/python/__init__.pyo"
+    "/home/peter/Desktop/acoustic_radio/gr-myblocks/build/python/qpsk_demod_v2.pyo"
     )
 endif()
 

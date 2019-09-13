@@ -1,6 +1,6 @@
 # CMake generated Testfile for 
-# Source directory: /home/zijianzh/Desktop/acoustic_radio/gr-myblocks
-# Build directory: /home/zijianzh/Desktop/acoustic_radio/gr-myblocks/build
+# Source directory: /home/peter/Desktop/acoustic_radio/gr-myblocks
+# Build directory: /home/peter/Desktop/acoustic_radio/gr-myblocks/build
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.

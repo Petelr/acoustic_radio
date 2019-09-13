@@ -1,4 +1,4 @@
-# Install script for directory: /home/zijianzh/Desktop/acoustic_radio/gr-myblocks/include/myblocks
+# Install script for directory: /home/peter/Desktop/acoustic_radio/gr-myblocks/include/myblocks
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,6 +38,6 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/myblocks" TYPE FILE FILES "/home/zijianzh/Desktop/acoustic_radio/gr-myblocks/include/myblocks/api.h")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/myblocks" TYPE FILE FILES "/home/peter/Desktop/acoustic_radio/gr-myblocks/include/myblocks/api.h")
 endif()
 
