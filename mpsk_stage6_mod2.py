@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Mpsk Stage6 Mod2
-# Generated: Thu Sep 12 19:53:31 2019
+# Generated: Thu Sep 26 22:04:44 2019
 ##################################################
 
 from distutils.version import StrictVersion
@@ -433,7 +433,7 @@ class mpsk_stage6_mod2(gr.top_block, Qt.QWidget):
         		access_code=a_code,
         		pad_for_usrp=False,
         	),
-        	payload_length=2,
+        	payload_length=16,
         )
         self.blks2_packet_decoder_0 = grc_blks2.packet_demod_b(grc_blks2.packet_decoder(
         		access_code=a_code,
