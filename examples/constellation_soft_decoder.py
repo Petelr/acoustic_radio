@@ -5,7 +5,7 @@
 # Title: Soft Decoder Example
 # Author: Tom Rondeau
 # Description: Explore Soft Decoding of constellations. Selec the constellation from the available objects.
-# Generated: Wed Sep 25 21:49:23 2019
+# Generated: Mon Oct  7 17:16:26 2019
 ##################################################
 
 from distutils.version import StrictVersion
@@ -78,7 +78,7 @@ class constellation_soft_decoder(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate = 100000
         self.rrc_taps = rrc_taps = firdes.root_raised_cosine(nfilts, nfilts, 1.0/float(sps), 0.35, 11*sps*nfilts)
         self.noise_volt = noise_volt = 0.0001
-        self.delay = delay = 29
+        self.delay = delay = 58
 
         self.constel = constel = digital.constellation_calcdist((digital.psk_4()[0]), (digital.psk_4()[1]), 4, 1).base()
 
@@ -114,7 +114,7 @@ class constellation_soft_decoder(gr.top_block, Qt.QWidget):
         	3 #number of inputs
         )
         self.qtgui_time_sink_x_0.set_update_time(0.05)
-        self.qtgui_time_sink_x_0.set_y_axis(-1, 2)
+        self.qtgui_time_sink_x_0.set_y_axis(-130, 130)
 
         self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
 
@@ -222,9 +222,8 @@ class constellation_soft_decoder(gr.top_block, Qt.QWidget):
         	noise_seed=0,
         	block_tags=False
         )
-        self.blocks_unpack_k_bits_bb_0_0 = blocks.unpack_k_bits_bb(8)
-        self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(constel.bits_per_symbol())
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_char*1, samp_rate,True)
+        self.blocks_repack_bits_bb_0 = blocks.repack_bits_bb(2, 8, "", True, gr.GR_LSB_FIRST)
         self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/test.jpg', False)
         self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/test_out.jpg', False)
         self.blocks_file_sink_0.set_unbuffered(False)
@@ -241,17 +240,16 @@ class constellation_soft_decoder(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_char_to_float_0_0_0, 0), (self.qtgui_time_sink_x_0, 2))
         self.connect((self.blocks_delay_0, 0), (self.blocks_char_to_float_0_0_0, 0))
         self.connect((self.blocks_file_source_0, 0), (self.blocks_throttle_0, 0))
-        self.connect((self.blocks_throttle_0, 0), (self.blocks_unpack_k_bits_bb_0_0, 0))
+        self.connect((self.blocks_repack_bits_bb_0, 0), (self.blocks_char_to_float_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.blocks_delay_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.digital_constellation_modulator_0, 0))
-        self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.blocks_char_to_float_0, 0))
-        self.connect((self.blocks_unpack_k_bits_bb_0_0, 0), (self.blocks_delay_0, 0))
         self.connect((self.channels_channel_model_0, 0), (self.digital_pfb_clock_sync_xxx_0, 0))
         self.connect((self.digital_binary_slicer_fb_0, 0), (self.blocks_char_to_float_0_0, 0))
         self.connect((self.digital_binary_slicer_fb_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.digital_constellation_decoder_cb_0, 0), (self.digital_map_bb_0_0, 0))
         self.connect((self.digital_constellation_modulator_0, 0), (self.channels_channel_model_0, 0))
         self.connect((self.digital_constellation_soft_decoder_cf_0, 0), (self.digital_binary_slicer_fb_0, 0))
-        self.connect((self.digital_map_bb_0_0, 0), (self.blocks_unpack_k_bits_bb_0, 0))
+        self.connect((self.digital_map_bb_0_0, 0), (self.blocks_repack_bits_bb_0, 0))
         self.connect((self.digital_pfb_clock_sync_xxx_0, 0), (self.digital_constellation_decoder_cb_0, 0))
         self.connect((self.digital_pfb_clock_sync_xxx_0, 0), (self.digital_constellation_soft_decoder_cf_0, 0))
         self.connect((self.digital_pfb_clock_sync_xxx_0, 0), (self.qtgui_const_sink_x_1, 0))
