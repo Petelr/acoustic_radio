@@ -5,7 +5,7 @@
 # Title: Soft Decoder Example
 # Author: Tom Rondeau
 # Description: Explore Soft Decoding of constellations. Selec the constellation from the available objects.
-# Generated: Sun Oct 13 14:57:19 2019
+# Generated: Thu Oct 17 15:15:08 2019
 ##################################################
 
 from distutils.version import StrictVersion

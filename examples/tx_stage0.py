@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Tx Stage0
-# Generated: Thu Sep 26 11:59:38 2019
+# Generated: Thu Oct 17 15:10:24 2019
 ##################################################
 
 
@@ -24,6 +24,7 @@ class tx_stage0(gr.top_block):
         ##################################################
         # Blocks
         ##################################################
+        self.blocks_tuntap_pdu_0 = blocks.tuntap_pdu('tap0', 10000, False)
         self.blocks_random_pdu_0 = blocks.random_pdu(15, 150, chr(0xff), 1)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.PMT_T, 2000)
         self.blocks_message_debug_0 = blocks.message_debug()
@@ -33,6 +34,7 @@ class tx_stage0(gr.top_block):
         ##################################################
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.blocks_random_pdu_0, 'generate'))
         self.msg_connect((self.blocks_random_pdu_0, 'pdus'), (self.blocks_message_debug_0, 'print_pdu'))
+        self.msg_connect((self.blocks_tuntap_pdu_0, 'pdus'), (self.blocks_message_debug_0, 'print_pdu'))
 
 
 def main(top_block_cls=tx_stage0, options=None):

@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Downconversion Test
-# Generated: Sun Oct 13 16:21:22 2019
+# Generated: Thu Oct 17 15:12:59 2019
 ##################################################
 
 from distutils.version import StrictVersion
@@ -132,7 +132,6 @@ class DownConversion_test(gr.top_block, Qt.QWidget):
         	0.75, samp_rate, lpf_cutoff_freq, lpf_transition_width, firdes.WIN_HAMMING, 6.76))
         self.low_pass_filter_0 = filter.fir_filter_fff(1, firdes.low_pass(
         	0.75, samp_rate, lpf_cutoff_freq, lpf_transition_width, firdes.WIN_HAMMING, 6.76))
-        self.digital_pfb_clock_sync_xxx_0_0_0 = digital.pfb_clock_sync_ccf(sps, timing_loop_bw, (rrc_taps), nfilts, nfilts/2, 1.5, 1)
         self.digital_pfb_clock_sync_xxx_0_0 = digital.pfb_clock_sync_ccf(sps, timing_loop_bw, (rrc_taps), nfilts, nfilts/2, 1.5, 1)
         self.digital_constellation_modulator_0 = digital.generic_mod(
           constellation=qpsk,
@@ -143,9 +142,9 @@ class DownConversion_test(gr.top_block, Qt.QWidget):
           verbose=True,
           log=False,
           )
-        self.digital_constellation_decoder_cb_0_0_0 = digital.constellation_decoder_cb(qpsk)
+        self.digital_constellation_decoder_cb_0_0 = digital.constellation_decoder_cb(qpsk)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
-        self.blocks_tagged_stream_to_pdu_0_0 = blocks.tagged_stream_to_pdu(blocks.byte_t, 'packet_len')
+        self.blocks_tagged_stream_to_pdu_0 = blocks.tagged_stream_to_pdu(blocks.byte_t, 'packet_len')
         self.blocks_random_pdu_0 = blocks.random_pdu(5, 6, chr(0xFF), 2)
         self.blocks_pdu_to_tagged_stream_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
         self.blocks_multiply_xx_0_2 = blocks.multiply_vff(1)
@@ -167,9 +166,8 @@ class DownConversion_test(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.blocks_random_pdu_0, 'generate'))
-        self.msg_connect((self.blocks_random_pdu_0, 'pdus'), (self.blocks_message_debug_0, 'print_pdu'))
         self.msg_connect((self.blocks_random_pdu_0, 'pdus'), (self.blocks_pdu_to_tagged_stream_0, 'pdus'))
-        self.msg_connect((self.blocks_tagged_stream_to_pdu_0_0, 'pdus'), (self.blocks_message_debug_0, 'print_pdu'))
+        self.msg_connect((self.blocks_tagged_stream_to_pdu_0, 'pdus'), (self.blocks_message_debug_0, 'print_pdu'))
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_throttle_0, 0))
         self.connect((self.analog_sig_source_x_0_1, 0), (self.blocks_complex_to_float_2_0, 0))
         self.connect((self.blocks_complex_to_float_0, 0), (self.blocks_multiply_xx_0, 1))
@@ -188,11 +186,10 @@ class DownConversion_test(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_multiply_xx_0_2, 0), (self.low_pass_filter_0_0, 0))
         self.connect((self.blocks_pdu_to_tagged_stream_0, 0), (self.digital_constellation_modulator_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.blocks_complex_to_float_0, 0))
-        self.connect((self.digital_constellation_decoder_cb_0_0_0, 0), (self.blocks_tagged_stream_to_pdu_0_0, 0))
+        self.connect((self.digital_constellation_decoder_cb_0_0, 0), (self.blocks_tagged_stream_to_pdu_0, 0))
         self.connect((self.digital_constellation_modulator_0, 0), (self.blocks_complex_to_float_1, 0))
-        self.connect((self.digital_constellation_modulator_0, 0), (self.digital_pfb_clock_sync_xxx_0_0_0, 0))
+        self.connect((self.digital_pfb_clock_sync_xxx_0_0, 0), (self.digital_constellation_decoder_cb_0_0, 0))
         self.connect((self.digital_pfb_clock_sync_xxx_0_0, 0), (self.qtgui_const_sink_x_0, 0))
-        self.connect((self.digital_pfb_clock_sync_xxx_0_0_0, 0), (self.digital_constellation_decoder_cb_0_0_0, 0))
         self.connect((self.low_pass_filter_0, 0), (self.blocks_float_to_complex_0_0, 0))
         self.connect((self.low_pass_filter_0_0, 0), (self.blocks_float_to_complex_0_0, 1))
 
@@ -220,7 +217,6 @@ class DownConversion_test(gr.top_block, Qt.QWidget):
 
     def set_timing_loop_bw(self, timing_loop_bw):
         self.timing_loop_bw = timing_loop_bw
-        self.digital_pfb_clock_sync_xxx_0_0_0.set_loop_bandwidth(self.timing_loop_bw)
         self.digital_pfb_clock_sync_xxx_0_0.set_loop_bandwidth(self.timing_loop_bw)
 
     def get_samp_rate(self):
@@ -239,7 +235,6 @@ class DownConversion_test(gr.top_block, Qt.QWidget):
 
     def set_rrc_taps(self, rrc_taps):
         self.rrc_taps = rrc_taps
-        self.digital_pfb_clock_sync_xxx_0_0_0.update_taps((self.rrc_taps))
         self.digital_pfb_clock_sync_xxx_0_0.update_taps((self.rrc_taps))
 
     def get_qpsk(self):

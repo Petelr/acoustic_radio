@@ -991,7 +991,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 192)</value>
+      <value>(768, 208)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1042,7 +1042,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 320)</value>
+      <value>(768, 288)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1293,7 +1293,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1395,7 +1395,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1462,7 +1462,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2476,15 +2476,15 @@
   </connection>
   <connection>
     <source_block_id>blocks_random_pdu_0</source_block_id>
-    <sink_block_id>blocks_message_debug_0</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>print_pdu</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_random_pdu_0</source_block_id>
     <sink_block_id>blocks_pdu_to_tagged_stream_0</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>pdus</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_tagged_stream_to_pdu_0</source_block_id>
+    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <source_key>pdus</source_key>
+    <sink_key>print_pdu</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_throttle_0</source_block_id>
