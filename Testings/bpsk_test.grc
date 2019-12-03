@@ -179,7 +179,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -222,7 +222,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1362,7 +1362,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1413,7 +1413,7 @@
     </param>
     <param>
       <key>file</key>
-      <value>/home/peter/Desktop/acoustic_radio/Testings/test_output</value>
+      <value>/home/peter/Desktop/acoustic_radio/Testings/bin_test_qpsk_NOpacketEncode_output.txt</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1460,7 +1460,7 @@
     </param>
     <param>
       <key>file</key>
-      <value>/home/peter/Desktop/acoustic_radio/test_input.txt</value>
+      <value>/home/peter/Desktop/acoustic_radio/Testings/bin_test.txt</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1488,7 +1488,7 @@
     </param>
     <param>
       <key>repeat</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>vlen</key>
@@ -1848,7 +1848,7 @@
     <key>blocks_repack_bits_bb</key>
     <param>
       <key>k</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>l</key>
@@ -2217,7 +2217,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2303,7 +2303,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -5026,6 +5026,12 @@
   </connection>
   <connection>
     <source_block_id>digital_binary_slicer_fb_0</source_block_id>
+    <sink_block_id>blocks_file_sink_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>digital_binary_slicer_fb_0</source_block_id>
     <sink_block_id>blocks_repack_bits_bb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -5033,6 +5039,12 @@
   <connection>
     <source_block_id>digital_constellation_decoder_cb_0</source_block_id>
     <sink_block_id>digital_map_bb_0_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>digital_constellation_decoder_cb_0_0</source_block_id>
+    <sink_block_id>blocks_repack_bits_bb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

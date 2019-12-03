@@ -437,7 +437,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1000, 100)</value>
+      <value>(968, 100)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -763,7 +763,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(920, 264)</value>
+      <value>(904, 264)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -853,7 +853,7 @@
     </param>
     <param>
       <key>file</key>
-      <value>/home/zijianzh/Desktop/GNURadio/received.txt</value>
+      <value>/home/peter/Desktop/acoustic_radio/Testings/test_output_bpsk_slice_audioM.txt</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -866,6 +866,57 @@
     <param>
       <key>id</key>
       <value>blocks_file_sink_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>byte</value>
+    </param>
+    <param>
+      <key>unbuffered</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_file_sink</key>
+    <param>
+      <key>append</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>file</key>
+      <value>/home/peter/Desktop/acoustic_radio/Testings/bin_test_output.txt</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(480, 596)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_file_sink_0_0</value>
     </param>
     <param>
       <key>type</key>
@@ -900,7 +951,7 @@
     </param>
     <param>
       <key>file</key>
-      <value>/home/peter/Desktop/acoustic_radio/test.jpg</value>
+      <value>/home/peter/Desktop/acoustic_radio/Testings/bin_test.txt</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -3322,7 +3373,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -3380,6 +3431,12 @@
   <connection>
     <source_block_id>blks2_packet_decoder_0</source_block_id>
     <sink_block_id>virtual_sink_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blks2_packet_encoder_0</source_block_id>
+    <sink_block_id>blocks_file_sink_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Message Test
-# Generated: Wed Nov  6 15:59:20 2019
+# Generated: Thu Nov  7 14:52:03 2019
 ##################################################
 
 from distutils.version import StrictVersion
@@ -82,9 +82,7 @@ class message_test(gr.top_block, Qt.QWidget):
         self.excess_bw = excess_bw = 0.35
         self.eq_gain = eq_gain = 10e-3
         self.center_freq = center_freq = 5e3
-
-        self.bpsk = bpsk = digital.constellation_bpsk().base()
-
+        self.bpsk = bpsk = digital.constellation_rect(([1+1j, -1+1j, -1-1j, 1-1j]), ([0, 1, 2, 3]), 4, 2, 2, 1, 1).base()
         self.arity = arity = 4
 
         ##################################################
@@ -243,9 +241,9 @@ class message_test(gr.top_block, Qt.QWidget):
           verbose=True,
           log=False,
           )
-        self.digital_binary_slicer_fb_0 = digital.binary_slicer_fb()
+        self.digital_constellation_decoder_cb_0_0 = digital.constellation_decoder_cb(bpsk)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_char*1, 10e3,True)
-        self.blocks_repack_bits_bb_0 = blocks.repack_bits_bb(1, 8, "", False, gr.GR_MSB_FIRST)
+        self.blocks_repack_bits_bb_0 = blocks.repack_bits_bb(2, 8, "", False, gr.GR_MSB_FIRST)
         self.blocks_multiply_xx_0_1 = blocks.multiply_vff(1)
         self.blocks_multiply_xx_0_0_0 = blocks.multiply_vff(1)
         self.blocks_multiply_xx_0_0 = blocks.multiply_vff(1)
@@ -253,10 +251,9 @@ class message_test(gr.top_block, Qt.QWidget):
         self.blocks_multiply_const_vxx_0_0 = blocks.multiply_const_vff((1, ))
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((2, ))
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/test_input.txt', False)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/Testings/test_output', False)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/Testings/bin_test.txt', True)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/Testings/bin_test_qpsk_NOpacketEncode_output.txt', False)
         self.blocks_file_sink_0.set_unbuffered(False)
-        self.blocks_complex_to_real_0 = blocks.complex_to_real(1)
         self.blocks_complex_to_float_2 = blocks.complex_to_float(1)
         self.blocks_complex_to_float_0 = blocks.complex_to_float(1)
         self.blocks_add_xx_0 = blocks.add_vff(1)
@@ -278,7 +275,6 @@ class message_test(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_complex_to_float_0, 0), (self.blocks_multiply_xx_0, 0))
         self.connect((self.blocks_complex_to_float_0, 1), (self.blocks_multiply_xx_0_0, 0))
         self.connect((self.blocks_complex_to_float_2, 0), (self.qtgui_time_sink_x_1, 0))
-        self.connect((self.blocks_complex_to_real_0, 0), (self.digital_binary_slicer_fb_0, 0))
         self.connect((self.blocks_file_source_0, 0), (self.blocks_throttle_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.digital_pfb_clock_sync_xxx_0_0_0, 0))
@@ -293,10 +289,10 @@ class message_test(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_multiply_xx_0_1, 0), (self.qtgui_freq_sink_x_1_1, 1))
         self.connect((self.blocks_repack_bits_bb_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.digital_constellation_modulator_0, 0))
-        self.connect((self.digital_binary_slicer_fb_0, 0), (self.blocks_repack_bits_bb_0, 0))
+        self.connect((self.digital_constellation_decoder_cb_0_0, 0), (self.blocks_repack_bits_bb_0, 0))
         self.connect((self.digital_constellation_modulator_0, 0), (self.blocks_complex_to_float_0, 0))
         self.connect((self.digital_constellation_modulator_0, 0), (self.blocks_complex_to_float_2, 0))
-        self.connect((self.digital_pfb_clock_sync_xxx_0_0_0, 0), (self.blocks_complex_to_real_0, 0))
+        self.connect((self.digital_pfb_clock_sync_xxx_0_0_0, 0), (self.digital_constellation_decoder_cb_0_0, 0))
         self.connect((self.low_pass_filter_0, 0), (self.blocks_float_to_complex_0, 0))
         self.connect((self.low_pass_filter_0, 0), (self.qtgui_freq_sink_x_1_1, 2))
         self.connect((self.low_pass_filter_0, 0), (self.qtgui_time_sink_x_1_0, 0))

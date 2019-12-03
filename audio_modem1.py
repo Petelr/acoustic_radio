@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Audio Modem1
-# Generated: Fri Nov  1 14:44:33 2019
+# Generated: Wed Nov 20 11:15:34 2019
 ##################################################
 
 from distutils.version import StrictVersion
@@ -286,7 +286,9 @@ class audio_modem1(gr.top_block, Qt.QWidget):
         self.blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
         self.blocks_multiply_xx_0 = blocks.multiply_vff(1)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/test.jpg', True)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/Testings/bin_test.txt', True)
+        self.blocks_file_sink_0_0 = blocks.file_sink(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/Testings/bin_test_output.txt', False)
+        self.blocks_file_sink_0_0.set_unbuffered(False)
         self.blocks_complex_to_real_1 = blocks.complex_to_real(1)
         self.blocks_complex_to_real_0 = blocks.complex_to_real(1)
         self.blks2_packet_encoder_0 = grc_blks2.packet_mod_b(grc_blks2.packet_encoder(
@@ -314,6 +316,7 @@ class audio_modem1(gr.top_block, Qt.QWidget):
         self.connect((self.analog_feedforward_agc_cc_0, 0), (self.digital_pfb_clock_sync_xxx_0, 0))
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 1))
         self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_multiply_xx_0_0, 1))
+        self.connect((self.blks2_packet_encoder_0, 0), (self.blocks_file_sink_0_0, 0))
         self.connect((self.blks2_packet_encoder_0, 0), (self.digital_constellation_modulator_0, 0))
         self.connect((self.blocks_complex_to_real_0, 0), (self.digital_binary_slicer_fb_0, 0))
         self.connect((self.blocks_complex_to_real_1, 0), (self.blocks_multiply_xx_0, 0))
