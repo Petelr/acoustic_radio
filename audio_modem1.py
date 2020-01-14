@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Audio Modem1
-# Generated: Wed Nov 20 11:15:34 2019
+# Generated: Tue Jan 14 14:32:46 2020
 ##################################################
 
 from distutils.version import StrictVersion
@@ -21,6 +21,7 @@ if __name__ == '__main__':
 from PyQt5 import Qt
 from PyQt5 import Qt, QtCore
 from gnuradio import analog
+from gnuradio import audio
 from gnuradio import blocks
 from gnuradio import digital
 from gnuradio import eng_notation
@@ -286,11 +287,17 @@ class audio_modem1(gr.top_block, Qt.QWidget):
         self.blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
         self.blocks_multiply_xx_0 = blocks.multiply_vff(1)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/Testings/bin_test.txt', True)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/peterzhu/Desktop/acoustic_radio/Testings/test_input.txt', True)
         self.blocks_file_sink_0_0 = blocks.file_sink(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/Testings/bin_test_output.txt', False)
         self.blocks_file_sink_0_0.set_unbuffered(False)
         self.blocks_complex_to_real_1 = blocks.complex_to_real(1)
         self.blocks_complex_to_real_0 = blocks.complex_to_real(1)
+        self.blks2_tcp_sink_0 = grc_blks2.tcp_sink(
+        	itemsize=gr.sizeof_char*1,
+        	addr='127.0.0.1',
+        	port=9989,
+        	server=False,
+        )
         self.blks2_packet_encoder_0 = grc_blks2.packet_mod_b(grc_blks2.packet_encoder(
         		samples_per_symbol=1,
         		bits_per_symbol=1,
@@ -306,6 +313,8 @@ class audio_modem1(gr.top_block, Qt.QWidget):
         		callback=lambda ok, payload: self.blks2_packet_decoder_0.recv_pkt(ok, payload),
         	),
         )
+        self.audio_source_0 = audio.source(16000, '', True)
+        self.audio_sink_0 = audio.sink(16000, '', True)
         self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, -4E3, 1, 0)
         self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate, analog.GR_COS_WAVE, 4E3, 1, 0)
         self.analog_feedforward_agc_cc_0 = analog.feedforward_agc_cc(1024, 1.55)
@@ -316,6 +325,8 @@ class audio_modem1(gr.top_block, Qt.QWidget):
         self.connect((self.analog_feedforward_agc_cc_0, 0), (self.digital_pfb_clock_sync_xxx_0, 0))
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 1))
         self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_multiply_xx_0_0, 1))
+        self.connect((self.audio_source_0, 0), (self.blocks_float_to_complex_0, 0))
+        self.connect((self.blks2_packet_decoder_0, 0), (self.blks2_tcp_sink_0, 0))
         self.connect((self.blks2_packet_encoder_0, 0), (self.blocks_file_sink_0_0, 0))
         self.connect((self.blks2_packet_encoder_0, 0), (self.digital_constellation_modulator_0, 0))
         self.connect((self.blocks_complex_to_real_0, 0), (self.digital_binary_slicer_fb_0, 0))
@@ -323,7 +334,7 @@ class audio_modem1(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_complex_to_real_1, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.blocks_file_source_0, 0), (self.blks2_packet_encoder_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.blocks_multiply_xx_0_0, 0))
-        self.connect((self.blocks_multiply_xx_0, 0), (self.blocks_float_to_complex_0, 0))
+        self.connect((self.blocks_multiply_xx_0, 0), (self.audio_sink_0, 0))
         self.connect((self.blocks_multiply_xx_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.blocks_multiply_xx_0, 0), (self.qtgui_time_sink_x_0, 1))
         self.connect((self.blocks_multiply_xx_0_0, 0), (self.low_pass_filter_0, 0))

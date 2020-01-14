@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Symbol Sampling Diff
-# Generated: Fri Apr  5 15:46:01 2019
+# Generated: Tue Jan 14 14:26:56 2020
 ##################################################
 
 from distutils.version import StrictVersion
@@ -81,7 +81,7 @@ class symbol_sampling_diff(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0_0 = qtgui.time_sink_f(
         	27, #size
         	samp_rate, #samp_rate
-        	'QT GUI Plot', #name
+        	'QT GUI Plot 2', #name
         	4 #number of inputs
         )
         self.qtgui_time_sink_x_0_0.set_update_time(0.01)
@@ -131,7 +131,7 @@ class symbol_sampling_diff(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
         	27, #size
         	samp_rate, #samp_rate
-        	'QT GUI Plot', #name
+        	'QT GUI Plot 1', #name
         	4 #number of inputs
         )
         self.qtgui_time_sink_x_0.set_update_time(0.01)
