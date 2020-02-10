@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Audio Modem1
-# Generated: Tue Jan 14 14:32:46 2020
+# Generated: Fri Feb  7 15:10:39 2020
 ##################################################
 
 from distutils.version import StrictVersion
@@ -287,7 +287,7 @@ class audio_modem1(gr.top_block, Qt.QWidget):
         self.blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
         self.blocks_multiply_xx_0 = blocks.multiply_vff(1)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/peterzhu/Desktop/acoustic_radio/Testings/test_input.txt', True)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/Testings/bin_test.txt', True)
         self.blocks_file_sink_0_0 = blocks.file_sink(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/Testings/bin_test_output.txt', False)
         self.blocks_file_sink_0_0.set_unbuffered(False)
         self.blocks_complex_to_real_1 = blocks.complex_to_real(1)

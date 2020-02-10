@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Mpsk Stage6
-# Generated: Fri Jun  7 11:45:18 2019
+# Generated: Sun Feb  9 14:31:00 2020
 ##################################################
 
 from distutils.version import StrictVersion
@@ -21,10 +21,11 @@ if __name__ == '__main__':
 from PyQt5 import Qt
 from PyQt5 import Qt, QtCore
 from gnuradio import blocks
-from gnuradio import channels
 from gnuradio import digital
 from gnuradio import eng_notation
+from gnuradio import fec
 from gnuradio import gr
+from gnuradio import iio
 from gnuradio import qtgui
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
@@ -108,11 +109,6 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
         self.controls_grid_layout_1.addWidget(self._timing_loop_bw_win, 0, 0, 1, 1)
         [self.controls_grid_layout_1.setRowStretch(r,1) for r in range(0,1)]
         [self.controls_grid_layout_1.setColumnStretch(c,1) for c in range(0,1)]
-        self._time_offset_range = Range(0.999, 1.001, 0.0001, 1.00, 200)
-        self._time_offset_win = RangeWidget(self._time_offset_range, self.set_time_offset, 'Timing Offset', "counter_slider", float)
-        self.controls_grid_layout_0.addWidget(self._time_offset_win, 0, 2, 1, 1)
-        [self.controls_grid_layout_0.setRowStretch(r,1) for r in range(0,1)]
-        [self.controls_grid_layout_0.setColumnStretch(c,1) for c in range(2,3)]
         self.received = Qt.QTabWidget()
         self.received_widget_0 = Qt.QWidget()
         self.received_layout_0 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.received_widget_0)
@@ -132,16 +128,6 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
         self.controls_grid_layout_1.addWidget(self._phase_bw_win, 0, 2, 1, 1)
         [self.controls_grid_layout_1.setRowStretch(r,1) for r in range(0,1)]
         [self.controls_grid_layout_1.setColumnStretch(c,1) for c in range(2,3)]
-        self._noise_volt_range = Range(0, 1, 0.01, 0.0001, 200)
-        self._noise_volt_win = RangeWidget(self._noise_volt_range, self.set_noise_volt, 'Noise Voltage', "counter_slider", float)
-        self.controls_grid_layout_0.addWidget(self._noise_volt_win, 0, 0, 1, 1)
-        [self.controls_grid_layout_0.setRowStretch(r,1) for r in range(0,1)]
-        [self.controls_grid_layout_0.setColumnStretch(c,1) for c in range(0,1)]
-        self._freq_offset_range = Range(-0.1, 0.1, 0.001, 0, 200)
-        self._freq_offset_win = RangeWidget(self._freq_offset_range, self.set_freq_offset, 'Frequency Offset', "counter_slider", float)
-        self.controls_grid_layout_0.addWidget(self._freq_offset_win, 0, 1, 1, 1)
-        [self.controls_grid_layout_0.setRowStretch(r,1) for r in range(0,1)]
-        [self.controls_grid_layout_0.setColumnStretch(c,1) for c in range(1,2)]
         self._eq_gain_range = Range(0.0, 0.1, 0.001, 0.01, 200)
         self._eq_gain_win = RangeWidget(self._eq_gain_range, self.set_eq_gain, 'Equalizer: rate', "slider", float)
         self.controls_grid_layout_1.addWidget(self._eq_gain_win, 0, 1, 1, 1)
@@ -152,6 +138,11 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
         self.top_grid_layout.addWidget(self._delay_win, 1, 0, 1, 1)
         [self.top_grid_layout.setRowStretch(r,1) for r in range(1,2)]
         [self.top_grid_layout.setColumnStretch(c,1) for c in range(0,1)]
+        self._time_offset_range = Range(0.999, 1.001, 0.0001, 1.00, 200)
+        self._time_offset_win = RangeWidget(self._time_offset_range, self.set_time_offset, 'Timing Offset', "counter_slider", float)
+        self.controls_grid_layout_0.addWidget(self._time_offset_win, 0, 2, 1, 1)
+        [self.controls_grid_layout_0.setRowStretch(r,1) for r in range(0,1)]
+        [self.controls_grid_layout_0.setColumnStretch(c,1) for c in range(2,3)]
         self.qtgui_time_sink_x_1 = qtgui.time_sink_f(
         	1024, #size
         	samp_rate, #samp_rate
@@ -300,6 +291,37 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
         self.received_grid_layout_1.addWidget(self._qtgui_time_sink_x_0_win, 0, 0, 1, 1)
         [self.received_grid_layout_1.setRowStretch(r,1) for r in range(0,1)]
         [self.received_grid_layout_1.setColumnStretch(c,1) for c in range(0,1)]
+        self.qtgui_number_sink_0 = qtgui.number_sink(
+            gr.sizeof_float,
+            0,
+            qtgui.NUM_GRAPH_HORIZ,
+            1
+        )
+        self.qtgui_number_sink_0.set_update_time(0.10)
+        self.qtgui_number_sink_0.set_title("")
+
+        labels = ['', '', '', '', '',
+                  '', '', '', '', '']
+        units = ['', '', '', '', '',
+                 '', '', '', '', '']
+        colors = [("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"),
+                  ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black")]
+        factor = [1, 1, 1, 1, 1,
+                  1, 1, 1, 1, 1]
+        for i in xrange(1):
+            self.qtgui_number_sink_0.set_min(i, -1)
+            self.qtgui_number_sink_0.set_max(i, 60)
+            self.qtgui_number_sink_0.set_color(i, colors[i][0], colors[i][1])
+            if len(labels[i]) == 0:
+                self.qtgui_number_sink_0.set_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_number_sink_0.set_label(i, labels[i])
+            self.qtgui_number_sink_0.set_unit(i, units[i])
+            self.qtgui_number_sink_0.set_factor(i, factor[i])
+
+        self.qtgui_number_sink_0.enable_autoscale(False)
+        self._qtgui_number_sink_0_win = sip.wrapinstance(self.qtgui_number_sink_0.pyqwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_number_sink_0_win)
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
         	1024, #size
         	"", #name
@@ -343,8 +365,20 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
         self.received_grid_layout_0.addWidget(self._qtgui_const_sink_x_0_win, 0, 0, 1, 1)
         [self.received_grid_layout_0.setRowStretch(r,1) for r in range(0,1)]
         [self.received_grid_layout_0.setColumnStretch(c,1) for c in range(0,1)]
+        self._noise_volt_range = Range(0, 1, 0.01, 0.0001, 200)
+        self._noise_volt_win = RangeWidget(self._noise_volt_range, self.set_noise_volt, 'Noise Voltage', "counter_slider", float)
+        self.controls_grid_layout_0.addWidget(self._noise_volt_win, 0, 0, 1, 1)
+        [self.controls_grid_layout_0.setRowStretch(r,1) for r in range(0,1)]
+        [self.controls_grid_layout_0.setColumnStretch(c,1) for c in range(0,1)]
         self.myblocks_qpsk_demod_v2_0 = myblocks.qpsk_demod_v2(0)
-        self.digital_pfb_clock_sync_xxx_0 = digital.pfb_clock_sync_ccf(sps, timing_loop_bw, (rrc_taps), nfilts, nfilts/2, 1.5, 2)
+        self.math_0 = iio.iio_math('100*10^x', 1)
+        self._freq_offset_range = Range(-0.1, 0.1, 0.001, 0, 200)
+        self._freq_offset_win = RangeWidget(self._freq_offset_range, self.set_freq_offset, 'Frequency Offset', "counter_slider", float)
+        self.controls_grid_layout_0.addWidget(self._freq_offset_win, 0, 1, 1, 1)
+        [self.controls_grid_layout_0.setRowStretch(r,1) for r in range(0,1)]
+        [self.controls_grid_layout_0.setColumnStretch(c,1) for c in range(1,2)]
+        self.fec_ber_bf_0 = fec.ber_bf(False, 100, -7.0)
+        self.digital_pfb_clock_sync_xxx_0 = digital.pfb_clock_sync_ccf(sps, timing_loop_bw, (rrc_taps), nfilts, nfilts/2, 1.5, 6)
         self.digital_map_bb_0 = digital.map_bb(([0,3,2,1]))
         self.digital_diff_decoder_bb_0 = digital.diff_decoder_bb(4)
         self.digital_costas_loop_cc_0 = digital.costas_loop_cc(phase_bw, arity, False)
@@ -354,22 +388,15 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
           samples_per_symbol=sps,
           pre_diff_code=True,
           excess_bw=excess_bw,
-          verbose=False,
+          verbose=True,
           log=False,
           )
-        self.digital_cma_equalizer_cc_0 = digital.cma_equalizer_cc(15, 1, eq_gain, 2)
-        self.channels_channel_model_0 = channels.channel_model(
-        	noise_voltage=noise_volt,
-        	frequency_offset=freq_offset,
-        	epsilon=time_offset,
-        	taps=(taps),
-        	noise_seed=0,
-        	block_tags=False
-        )
+        self.digital_cma_equalizer_cc_0 = digital.cma_equalizer_cc(15, 1, eq_gain, 6)
         self.blocks_unpack_k_bits_bb_0_0 = blocks.unpack_k_bits_bb(8)
         self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(2)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
         self.blocks_sub_xx_0 = blocks.sub_ff(1)
+        self.blocks_delay_0_0 = blocks.delay(gr.sizeof_char*1, 58)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_float*1, int(delay))
         self.blocks_char_to_float_0_0_0 = blocks.char_to_float(1, 1)
         self.blocks_char_to_float_0_0 = blocks.char_to_float(1, 1)
@@ -387,11 +414,13 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_char_to_float_0_0_0, 0), (self.blocks_delay_0, 0))
         self.connect((self.blocks_delay_0, 0), (self.blocks_sub_xx_0, 1))
         self.connect((self.blocks_delay_0, 0), (self.qtgui_time_sink_x_0_0, 1))
+        self.connect((self.blocks_delay_0_0, 0), (self.fec_ber_bf_0, 1))
         self.connect((self.blocks_sub_xx_0, 0), (self.qtgui_time_sink_x_1, 0))
-        self.connect((self.blocks_throttle_0, 0), (self.channels_channel_model_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.digital_pfb_clock_sync_xxx_0, 0))
         self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.blocks_char_to_float_0_0, 0))
+        self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.fec_ber_bf_0, 0))
         self.connect((self.blocks_unpack_k_bits_bb_0_0, 0), (self.blocks_char_to_float_0_0_0, 0))
-        self.connect((self.channels_channel_model_0, 0), (self.digital_pfb_clock_sync_xxx_0, 0))
+        self.connect((self.blocks_unpack_k_bits_bb_0_0, 0), (self.blocks_delay_0_0, 0))
         self.connect((self.digital_cma_equalizer_cc_0, 0), (self.digital_costas_loop_cc_0, 0))
         self.connect((self.digital_constellation_modulator_0, 0), (self.blocks_throttle_0, 0))
         self.connect((self.digital_costas_loop_cc_0, 0), (self.myblocks_qpsk_demod_v2_0, 0))
@@ -399,6 +428,8 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
         self.connect((self.digital_diff_decoder_bb_0, 0), (self.blocks_unpack_k_bits_bb_0, 0))
         self.connect((self.digital_map_bb_0, 0), (self.digital_diff_decoder_bb_0, 0))
         self.connect((self.digital_pfb_clock_sync_xxx_0, 0), (self.digital_cma_equalizer_cc_0, 0))
+        self.connect((self.fec_ber_bf_0, 0), (self.math_0, 0))
+        self.connect((self.math_0, 0), (self.qtgui_number_sink_0, 0))
         self.connect((self.myblocks_qpsk_demod_v2_0, 0), (self.blocks_char_to_float_0, 0))
         self.connect((self.myblocks_qpsk_demod_v2_0, 0), (self.digital_map_bb_0, 0))
 
@@ -433,14 +464,12 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
 
     def set_time_offset(self, time_offset):
         self.time_offset = time_offset
-        self.channels_channel_model_0.set_timing_offset(self.time_offset)
 
     def get_taps(self):
         return self.taps
 
     def set_taps(self, taps):
         self.taps = taps
-        self.channels_channel_model_0.set_taps((self.taps))
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -477,14 +506,12 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
 
     def set_noise_volt(self, noise_volt):
         self.noise_volt = noise_volt
-        self.channels_channel_model_0.set_noise_voltage(self.noise_volt)
 
     def get_freq_offset(self):
         return self.freq_offset
 
     def set_freq_offset(self, freq_offset):
         self.freq_offset = freq_offset
-        self.channels_channel_model_0.set_frequency_offset(self.freq_offset)
 
     def get_excess_bw(self):
         return self.excess_bw
