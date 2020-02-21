@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Corr Test
-# Generated: Sun Feb  9 15:45:17 2020
+# Generated: Mon Feb 10 14:37:15 2020
 ##################################################
 
 from distutils.version import StrictVersion
@@ -39,7 +39,7 @@ from gnuradio import qtgui
 
 class corr_test(gr.top_block, Qt.QWidget):
 
-    def __init__(self, hdr_format=digital.header_format_default(digital.packet_utils.default_access_code, 0)):
+    def __init__(self, hdr_format=digital.header_format_default('110010101100101011001010', 0)):
         gr.top_block.__init__(self, "Corr Test")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Corr Test")
@@ -87,7 +87,7 @@ class corr_test(gr.top_block, Qt.QWidget):
         	2 #number of inputs
         )
         self.qtgui_time_sink_x_2.set_update_time(0.10)
-        self.qtgui_time_sink_x_2.set_y_axis(-1, 1)
+        self.qtgui_time_sink_x_2.set_y_axis(-1, 1.5)
 
         self.qtgui_time_sink_x_2.set_y_label('Amplitude', "")
 
@@ -162,7 +162,7 @@ class corr_test(gr.top_block, Qt.QWidget):
         self.math_0 = iio.iio_math('100*10^x', 1)
         self.fec_ber_bf_0 = fec.ber_bf(True, 8000, -7.0)
         self.digital_protocol_formatter_bb_0 = digital.protocol_formatter_bb(hdr_format, 'len_key')
-        self.digital_correlate_access_code_xx_ts_1_0_0 = digital.correlate_access_code_bb_ts(digital.packet_utils.default_access_code,
+        self.digital_correlate_access_code_xx_ts_1_0_0 = digital.correlate_access_code_bb_ts('11001010',
           2, 'len_key')
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_char*1, samp_rate,True)
         self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_char*1, 'len_key', 0)

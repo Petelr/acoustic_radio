@@ -403,7 +403,7 @@ per signal</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(632, 724)</value>
+      <value>(584, 724)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1004,7 +1004,7 @@ samples per symbol</value>
     <key>digital_correlate_access_code_xx_ts</key>
     <param>
       <key>access_code</key>
-      <value>digital.packet_utils.default_access_code</value>
+      <value>11001010</value>
     </param>
     <param>
       <key>alias</key>
@@ -1194,7 +1194,7 @@ This block takes one bit per byte.</value>
     </param>
     <param>
       <key>value</key>
-      <value>digital.header_format_default(digital.packet_utils.default_access_code, 0)</value>
+      <value>digital.header_format_default('110010101100101011001010', 0)</value>
     </param>
   </block>
   <block>
@@ -2202,7 +2202,7 @@ This block takes one bit per byte.</value>
     </param>
     <param>
       <key>ymax</key>
-      <value>1</value>
+      <value>1.5</value>
     </param>
     <param>
       <key>ymin</key>
