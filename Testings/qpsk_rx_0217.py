@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Qpsk Rx 0217
-# Generated: Thu Feb 20 21:47:16 2020
+# Generated: Wed Mar  4 17:30:37 2020
 ##################################################
 
 from distutils.version import StrictVersion
@@ -70,14 +70,16 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.sps = sps = 50
-        self.nfilts = nfilts = 32
-        self.excess_bw = excess_bw = 1
-        self.samp_rate = samp_rate = 44100
-        self.rrc_taps = rrc_taps = firdes.root_raised_cosine(nfilts, nfilts, 1.0/float(sps), excess_bw, 11*sps*nfilts)
+        self.sps = sps = 10
 
         self.qpsk = qpsk = digital.constellation_qpsk().base()
 
+        self.excess_bw = excess_bw = 0.7
+        self.rxmod = rxmod = digital.generic_mod(qpsk, False, sps, True, excess_bw, False, False)
+        self.nfilts = nfilts = 32
+        self.samp_rate = samp_rate = 44100
+        self.rrc_taps = rrc_taps = firdes.root_raised_cosine(nfilts, nfilts, 1.0/float(sps), excess_bw, 11*sps*nfilts)
+        self.modulated_sync_word = modulated_sync_word = digital.modulate_vector_bc(rxmod .to_basic_block(), ([0xac, 0xdd, 0xa4, 0xe2, 0xf2, 0x8c, 0x20, 0xfc]), ([1]))
         self.lpf_transition_width = lpf_transition_width = 100
         self.lpf_cutoff_freq = lpf_cutoff_freq = 3e3
         self.carrier_freq = carrier_freq = 5e3
@@ -85,8 +87,62 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
+        self.rational_resampler_xxx_0 = filter.rational_resampler_ccc(
+                interpolation=1,
+                decimation=50/sps,
+                taps=None,
+                fractional_bw=None,
+        )
+        self.qtgui_time_sink_x_0_0_0 = qtgui.time_sink_f(
+        	512, #size
+        	1, #samp_rate
+        	"", #name
+        	1 #number of inputs
+        )
+        self.qtgui_time_sink_x_0_0_0.set_update_time(0.10)
+        self.qtgui_time_sink_x_0_0_0.set_y_axis(-100, 4000)
+
+        self.qtgui_time_sink_x_0_0_0.set_y_label('Amplitude', "")
+
+        self.qtgui_time_sink_x_0_0_0.enable_tags(-1, True)
+        self.qtgui_time_sink_x_0_0_0.set_trigger_mode(qtgui.TRIG_MODE_TAG, qtgui.TRIG_SLOPE_POS, 0, 15, 0, 'corr_est')
+        self.qtgui_time_sink_x_0_0_0.enable_autoscale(True)
+        self.qtgui_time_sink_x_0_0_0.enable_grid(False)
+        self.qtgui_time_sink_x_0_0_0.enable_axis_labels(True)
+        self.qtgui_time_sink_x_0_0_0.enable_control_panel(False)
+        self.qtgui_time_sink_x_0_0_0.enable_stem_plot(False)
+
+        if not False:
+          self.qtgui_time_sink_x_0_0_0.disable_legend()
+
+        labels = ['', '', '', '', '',
+                  '', '', '', '', '']
+        widths = [1, 1, 1, 1, 1,
+                  1, 1, 1, 1, 1]
+        colors = ["blue", "red", "green", "black", "cyan",
+                  "magenta", "yellow", "dark red", "dark green", "blue"]
+        styles = [1, 1, 1, 1, 1,
+                  1, 1, 1, 1, 1]
+        markers = [-1, -1, -1, -1, -1,
+                   -1, -1, -1, -1, -1]
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+                  1.0, 1.0, 1.0, 1.0, 1.0]
+
+        for i in xrange(1):
+            if len(labels[i]) == 0:
+                self.qtgui_time_sink_x_0_0_0.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_time_sink_x_0_0_0.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_0_0_0.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_0_0_0.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_0_0_0.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_0_0_0.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_0_0_0.set_line_alpha(i, alphas[i])
+
+        self._qtgui_time_sink_x_0_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0_0.pyqwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_time_sink_x_0_0_0_win)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
-        	1024, #size
+        	128, #size
         	samp_rate, #samp_rate
         	"End", #name
         	1 #number of inputs
@@ -136,7 +192,7 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
         [self.top_grid_layout.setRowStretch(r,1) for r in range(0,1)]
         [self.top_grid_layout.setColumnStretch(c,1) for c in range(1,2)]
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
-        	1024, #size
+        	128, #size
         	"", #name
         	1 #number of inputs
         )
@@ -182,12 +238,13 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
         	1, samp_rate, lpf_cutoff_freq, lpf_transition_width, firdes.WIN_HAMMING, 6.76))
         self.low_pass_filter_0 = filter.fir_filter_fff(1, firdes.low_pass(
         	1, samp_rate, lpf_cutoff_freq, lpf_transition_width, firdes.WIN_HAMMING, 6.76))
-        self.digital_pfb_clock_sync_xxx_0 = digital.pfb_clock_sync_ccf(sps, 62.8e-3, (rrc_taps), nfilts, nfilts/2, 1.5, 8)
-        self.digital_lms_dd_equalizer_cc_0 = digital.lms_dd_equalizer_cc(20, 19E-3, 8, qpsk)
+        self.digital_pfb_clock_sync_xxx_0 = digital.pfb_clock_sync_ccf(sps, 62.8e-3, (rrc_taps), nfilts, nfilts/2, 1.5, 11)
+        self.digital_lms_dd_equalizer_cc_0 = digital.lms_dd_equalizer_cc(15, 10E-3, 11, qpsk)
         self.digital_diff_decoder_bb_0 = digital.diff_decoder_bb(4)
         self.digital_costas_loop_cc_0 = digital.costas_loop_cc(62.8e-3, 4, False)
         self.digital_correlate_access_code_xx_ts_1_0_0 = digital.correlate_access_code_bb_ts(digital.packet_utils.default_access_code,
           12, "len_key2")
+        self.digital_corr_est_cc_0 = digital.corr_est_cc((modulated_sync_word), sps, 156, 0.99)
         self.digital_constellation_decoder_cb_0 = digital.constellation_decoder_cb(qpsk)
         self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(2)
         self.blocks_tag_gate_0 = blocks.tag_gate(gr.sizeof_char * 1, False)
@@ -200,6 +257,7 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
         self.blocks_file_sink_0_0.set_unbuffered(False)
         self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/Testings/Debugs/output1.txt', False)
         self.blocks_file_sink_0.set_unbuffered(False)
+        self.blocks_complex_to_mag_squared_0 = blocks.complex_to_mag_squared(1)
         self.blocks_char_to_float_0 = blocks.char_to_float(1, 1)
         self.blks2_tcp_sink_0 = grc_blks2.tcp_sink(
         	itemsize=gr.sizeof_char*1,
@@ -219,7 +277,8 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
         self.connect((self.audio_source_0, 0), (self.blocks_multiply_xx_0_0_0, 0))
         self.connect((self.audio_source_0, 0), (self.blocks_multiply_xx_0_1, 0))
         self.connect((self.blocks_char_to_float_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.blocks_float_to_complex_0, 0), (self.digital_pfb_clock_sync_xxx_0, 0))
+        self.connect((self.blocks_complex_to_mag_squared_0, 0), (self.qtgui_time_sink_x_0_0_0, 0))
+        self.connect((self.blocks_float_to_complex_0, 0), (self.rational_resampler_xxx_0, 0))
         self.connect((self.blocks_multiply_xx_0_0_0, 0), (self.low_pass_filter_0_0, 0))
         self.connect((self.blocks_multiply_xx_0_1, 0), (self.low_pass_filter_0, 0))
         self.connect((self.blocks_repack_bits_bb_0, 0), (self.blks2_tcp_sink_0, 0))
@@ -230,6 +289,8 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_tag_gate_0, 0), (self.digital_correlate_access_code_xx_ts_1_0_0, 0))
         self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.blocks_tag_gate_0, 0))
         self.connect((self.digital_constellation_decoder_cb_0, 0), (self.digital_diff_decoder_bb_0, 0))
+        self.connect((self.digital_corr_est_cc_0, 1), (self.blocks_complex_to_mag_squared_0, 0))
+        self.connect((self.digital_corr_est_cc_0, 0), (self.digital_pfb_clock_sync_xxx_0, 0))
         self.connect((self.digital_correlate_access_code_xx_ts_1_0_0, 0), (self.blocks_repack_bits_bb_0, 0))
         self.connect((self.digital_costas_loop_cc_0, 0), (self.digital_constellation_decoder_cb_0, 0))
         self.connect((self.digital_costas_loop_cc_0, 0), (self.qtgui_const_sink_x_0, 0))
@@ -238,6 +299,7 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
         self.connect((self.digital_pfb_clock_sync_xxx_0, 0), (self.digital_lms_dd_equalizer_cc_0, 0))
         self.connect((self.low_pass_filter_0, 0), (self.blocks_float_to_complex_0, 0))
         self.connect((self.low_pass_filter_0_0, 0), (self.blocks_float_to_complex_0, 1))
+        self.connect((self.rational_resampler_xxx_0, 0), (self.digital_corr_est_cc_0, 0))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "qpsk_rx_0217")
@@ -250,19 +312,34 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
     def set_sps(self, sps):
         self.sps = sps
         self.set_rrc_taps(firdes.root_raised_cosine(self.nfilts, self.nfilts, 1.0/float(self.sps), self.excess_bw, 11*self.sps*self.nfilts))
+        self.set_rxmod(digital.generic_mod(self.qpsk, False, self.sps, True, self.excess_bw, False, False))
 
-    def get_nfilts(self):
-        return self.nfilts
+    def get_qpsk(self):
+        return self.qpsk
 
-    def set_nfilts(self, nfilts):
-        self.nfilts = nfilts
-        self.set_rrc_taps(firdes.root_raised_cosine(self.nfilts, self.nfilts, 1.0/float(self.sps), self.excess_bw, 11*self.sps*self.nfilts))
+    def set_qpsk(self, qpsk):
+        self.qpsk = qpsk
+        self.set_rxmod(digital.generic_mod(self.qpsk, False, self.sps, True, self.excess_bw, False, False))
 
     def get_excess_bw(self):
         return self.excess_bw
 
     def set_excess_bw(self, excess_bw):
         self.excess_bw = excess_bw
+        self.set_rrc_taps(firdes.root_raised_cosine(self.nfilts, self.nfilts, 1.0/float(self.sps), self.excess_bw, 11*self.sps*self.nfilts))
+        self.set_rxmod(digital.generic_mod(self.qpsk, False, self.sps, True, self.excess_bw, False, False))
+
+    def get_rxmod(self):
+        return self.rxmod
+
+    def set_rxmod(self, rxmod):
+        self.rxmod = rxmod
+
+    def get_nfilts(self):
+        return self.nfilts
+
+    def set_nfilts(self, nfilts):
+        self.nfilts = nfilts
         self.set_rrc_taps(firdes.root_raised_cosine(self.nfilts, self.nfilts, 1.0/float(self.sps), self.excess_bw, 11*self.sps*self.nfilts))
 
     def get_samp_rate(self):
@@ -283,11 +360,11 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
         self.rrc_taps = rrc_taps
         self.digital_pfb_clock_sync_xxx_0.update_taps((self.rrc_taps))
 
-    def get_qpsk(self):
-        return self.qpsk
+    def get_modulated_sync_word(self):
+        return self.modulated_sync_word
 
-    def set_qpsk(self, qpsk):
-        self.qpsk = qpsk
+    def set_modulated_sync_word(self, modulated_sync_word):
+        self.modulated_sync_word = modulated_sync_word
 
     def get_lpf_transition_width(self):
         return self.lpf_transition_width

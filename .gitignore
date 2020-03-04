@@ -2,4 +2,5 @@
 .DS_store
 # Ignore build files
 /gr-myblocks/build
-/_rec*
+/Testings/_rec*
+/Testings/Debugs*
