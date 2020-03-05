@@ -337,7 +337,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -353,7 +353,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>digital.generic_mod(qpsk, False, sps, True, excess_bw, False, False)</value>
+      <value>digital.generic_mod(qpsk, False, sps, False, excess_bw, False, False)</value>
     </param>
   </block>
   <block>
@@ -407,7 +407,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>10</value>
+      <value>5</value>
     </param>
   </block>
   <block>
@@ -1333,11 +1333,11 @@
     </param>
     <param>
       <key>mark_delay</key>
-      <value>156</value>
+      <value>0</value>
     </param>
     <param>
       <key>threshold</key>
-      <value>0.99</value>
+      <value>0.91</value>
     </param>
   </block>
   <block>
@@ -1521,7 +1521,7 @@
     </param>
     <param>
       <key>mu</key>
-      <value>10E-3</value>
+      <value>5E-3</value>
     </param>
     <param>
       <key>id</key>
@@ -1537,11 +1537,11 @@
     </param>
     <param>
       <key>num_taps</key>
-      <value>15</value>
+      <value>20</value>
     </param>
     <param>
       <key>sps</key>
-      <value>11</value>
+      <value>3</value>
     </param>
   </block>
   <block>
@@ -1600,7 +1600,7 @@
     </param>
     <param>
       <key>osps</key>
-      <value>11</value>
+      <value>3</value>
     </param>
     <param>
       <key>sps</key>
@@ -2511,7 +2511,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2850,7 +2850,7 @@
     <key>qtgui_time_sink_x</key>
     <param>
       <key>autoscale</key>
-      <value>True</value>
+      <value>False</value>
     </param>
     <param>
       <key>axislabels</key>
@@ -2878,7 +2878,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2894,7 +2894,7 @@
     </param>
     <param>
       <key>grid</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>id</key>
@@ -3170,7 +3170,7 @@
     </param>
     <param>
       <key>tr_delay</key>
-      <value>0.02</value>
+      <value>0</value>
     </param>
     <param>
       <key>tr_level</key>
@@ -3194,7 +3194,7 @@
     </param>
     <param>
       <key>update_time</key>
-      <value>0.04</value>
+      <value>0.4</value>
     </param>
     <param>
       <key>ylabel</key>
@@ -3206,7 +3206,7 @@
     </param>
     <param>
       <key>ymax</key>
-      <value>1</value>
+      <value>300</value>
     </param>
     <param>
       <key>ymin</key>

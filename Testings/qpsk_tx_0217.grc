@@ -648,57 +648,6 @@
     </param>
   </block>
   <block>
-    <key>blocks_file_sink</key>
-    <param>
-      <key>append</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>file</key>
-      <value>/home/peter/Desktop/acoustic_radio/Testings/Debugs/input.txt</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1080, 4)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_file_sink_2</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>byte</value>
-    </param>
-    <param>
-      <key>unbuffered</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
     <key>blocks_file_source</key>
     <param>
       <key>alias</key>
@@ -1032,7 +981,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1060,7 +1009,7 @@
     </param>
     <param>
       <key>packet_len</key>
-      <value>20</value>
+      <value>50</value>
     </param>
     <param>
       <key>type</key>
@@ -1115,7 +1064,7 @@
     </param>
     <param>
       <key>packet_len</key>
-      <value>15</value>
+      <value>119</value>
     </param>
     <param>
       <key>type</key>
@@ -1201,11 +1150,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(984, 96)</value>
+      <value>(976, 80)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1260,11 +1209,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(560, 36)</value>
+      <value>(552, 20)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1300,7 +1249,7 @@
     </param>
     <param>
       <key>vector</key>
-      <value>(0,3,2,1)</value>
+      <value>(0x5b,0x88,0x77,0xf1)</value>
     </param>
   </block>
   <block>
@@ -2443,19 +2392,7 @@
   </connection>
   <connection>
     <source_block_id>blocks_tagged_stream_mux_0</source_block_id>
-    <sink_block_id>digital_constellation_modulator_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_tagged_stream_mux_0</source_block_id>
     <sink_block_id>virtual_sink_1</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_tagged_stream_mux_0_0</source_block_id>
-    <sink_block_id>blocks_file_sink_2</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

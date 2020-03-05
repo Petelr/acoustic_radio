@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Qpsk Rx 0217
-# Generated: Wed Mar  4 17:30:37 2020
+# Generated: Thu Mar  5 17:15:58 2020
 ##################################################
 
 from distutils.version import StrictVersion
@@ -70,12 +70,12 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.sps = sps = 10
+        self.sps = sps = 5
 
         self.qpsk = qpsk = digital.constellation_qpsk().base()
 
         self.excess_bw = excess_bw = 0.7
-        self.rxmod = rxmod = digital.generic_mod(qpsk, False, sps, True, excess_bw, False, False)
+        self.rxmod = rxmod = digital.generic_mod(qpsk, False, sps, False, excess_bw, False, False)
         self.nfilts = nfilts = 32
         self.samp_rate = samp_rate = 44100
         self.rrc_taps = rrc_taps = firdes.root_raised_cosine(nfilts, nfilts, 1.0/float(sps), excess_bw, 11*sps*nfilts)
@@ -93,27 +93,27 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
                 taps=None,
                 fractional_bw=None,
         )
-        self.qtgui_time_sink_x_0_0_0 = qtgui.time_sink_f(
-        	512, #size
-        	1, #samp_rate
+        self.qtgui_time_sink_x_1 = qtgui.time_sink_f(
+        	128, #size
+        	samp_rate, #samp_rate
         	"", #name
         	1 #number of inputs
         )
-        self.qtgui_time_sink_x_0_0_0.set_update_time(0.10)
-        self.qtgui_time_sink_x_0_0_0.set_y_axis(-100, 4000)
+        self.qtgui_time_sink_x_1.set_update_time(0.4)
+        self.qtgui_time_sink_x_1.set_y_axis(-1, 300)
 
-        self.qtgui_time_sink_x_0_0_0.set_y_label('Amplitude', "")
+        self.qtgui_time_sink_x_1.set_y_label('Amplitude', "")
 
-        self.qtgui_time_sink_x_0_0_0.enable_tags(-1, True)
-        self.qtgui_time_sink_x_0_0_0.set_trigger_mode(qtgui.TRIG_MODE_TAG, qtgui.TRIG_SLOPE_POS, 0, 15, 0, 'corr_est')
-        self.qtgui_time_sink_x_0_0_0.enable_autoscale(True)
-        self.qtgui_time_sink_x_0_0_0.enable_grid(False)
-        self.qtgui_time_sink_x_0_0_0.enable_axis_labels(True)
-        self.qtgui_time_sink_x_0_0_0.enable_control_panel(False)
-        self.qtgui_time_sink_x_0_0_0.enable_stem_plot(False)
+        self.qtgui_time_sink_x_1.enable_tags(-1, True)
+        self.qtgui_time_sink_x_1.set_trigger_mode(qtgui.TRIG_MODE_TAG, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, 'corr_est')
+        self.qtgui_time_sink_x_1.enable_autoscale(False)
+        self.qtgui_time_sink_x_1.enable_grid(True)
+        self.qtgui_time_sink_x_1.enable_axis_labels(True)
+        self.qtgui_time_sink_x_1.enable_control_panel(False)
+        self.qtgui_time_sink_x_1.enable_stem_plot(False)
 
-        if not False:
-          self.qtgui_time_sink_x_0_0_0.disable_legend()
+        if not True:
+          self.qtgui_time_sink_x_1.disable_legend()
 
         labels = ['', '', '', '', '',
                   '', '', '', '', '']
@@ -130,17 +130,17 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
 
         for i in xrange(1):
             if len(labels[i]) == 0:
-                self.qtgui_time_sink_x_0_0_0.set_line_label(i, "Data {0}".format(i))
+                self.qtgui_time_sink_x_1.set_line_label(i, "Data {0}".format(i))
             else:
-                self.qtgui_time_sink_x_0_0_0.set_line_label(i, labels[i])
-            self.qtgui_time_sink_x_0_0_0.set_line_width(i, widths[i])
-            self.qtgui_time_sink_x_0_0_0.set_line_color(i, colors[i])
-            self.qtgui_time_sink_x_0_0_0.set_line_style(i, styles[i])
-            self.qtgui_time_sink_x_0_0_0.set_line_marker(i, markers[i])
-            self.qtgui_time_sink_x_0_0_0.set_line_alpha(i, alphas[i])
+                self.qtgui_time_sink_x_1.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_1.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_1.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_1.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_1.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_1.set_line_alpha(i, alphas[i])
 
-        self._qtgui_time_sink_x_0_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0_0.pyqwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_time_sink_x_0_0_0_win)
+        self._qtgui_time_sink_x_1_win = sip.wrapinstance(self.qtgui_time_sink_x_1.pyqwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_time_sink_x_1_win)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
         	128, #size
         	samp_rate, #samp_rate
@@ -238,13 +238,13 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
         	1, samp_rate, lpf_cutoff_freq, lpf_transition_width, firdes.WIN_HAMMING, 6.76))
         self.low_pass_filter_0 = filter.fir_filter_fff(1, firdes.low_pass(
         	1, samp_rate, lpf_cutoff_freq, lpf_transition_width, firdes.WIN_HAMMING, 6.76))
-        self.digital_pfb_clock_sync_xxx_0 = digital.pfb_clock_sync_ccf(sps, 62.8e-3, (rrc_taps), nfilts, nfilts/2, 1.5, 11)
-        self.digital_lms_dd_equalizer_cc_0 = digital.lms_dd_equalizer_cc(15, 10E-3, 11, qpsk)
+        self.digital_pfb_clock_sync_xxx_0 = digital.pfb_clock_sync_ccf(sps, 62.8e-3, (rrc_taps), nfilts, nfilts/2, 1.5, 3)
+        self.digital_lms_dd_equalizer_cc_0 = digital.lms_dd_equalizer_cc(20, 5E-3, 3, qpsk)
         self.digital_diff_decoder_bb_0 = digital.diff_decoder_bb(4)
         self.digital_costas_loop_cc_0 = digital.costas_loop_cc(62.8e-3, 4, False)
         self.digital_correlate_access_code_xx_ts_1_0_0 = digital.correlate_access_code_bb_ts(digital.packet_utils.default_access_code,
           12, "len_key2")
-        self.digital_corr_est_cc_0 = digital.corr_est_cc((modulated_sync_word), sps, 156, 0.99)
+        self.digital_corr_est_cc_0 = digital.corr_est_cc((modulated_sync_word), sps, 0, 0.91)
         self.digital_constellation_decoder_cb_0 = digital.constellation_decoder_cb(qpsk)
         self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(2)
         self.blocks_tag_gate_0 = blocks.tag_gate(gr.sizeof_char * 1, False)
@@ -277,7 +277,7 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
         self.connect((self.audio_source_0, 0), (self.blocks_multiply_xx_0_0_0, 0))
         self.connect((self.audio_source_0, 0), (self.blocks_multiply_xx_0_1, 0))
         self.connect((self.blocks_char_to_float_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.blocks_complex_to_mag_squared_0, 0), (self.qtgui_time_sink_x_0_0_0, 0))
+        self.connect((self.blocks_complex_to_mag_squared_0, 0), (self.qtgui_time_sink_x_1, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.rational_resampler_xxx_0, 0))
         self.connect((self.blocks_multiply_xx_0_0_0, 0), (self.low_pass_filter_0_0, 0))
         self.connect((self.blocks_multiply_xx_0_1, 0), (self.low_pass_filter_0, 0))
@@ -312,14 +312,14 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
     def set_sps(self, sps):
         self.sps = sps
         self.set_rrc_taps(firdes.root_raised_cosine(self.nfilts, self.nfilts, 1.0/float(self.sps), self.excess_bw, 11*self.sps*self.nfilts))
-        self.set_rxmod(digital.generic_mod(self.qpsk, False, self.sps, True, self.excess_bw, False, False))
+        self.set_rxmod(digital.generic_mod(self.qpsk, False, self.sps, False, self.excess_bw, False, False))
 
     def get_qpsk(self):
         return self.qpsk
 
     def set_qpsk(self, qpsk):
         self.qpsk = qpsk
-        self.set_rxmod(digital.generic_mod(self.qpsk, False, self.sps, True, self.excess_bw, False, False))
+        self.set_rxmod(digital.generic_mod(self.qpsk, False, self.sps, False, self.excess_bw, False, False))
 
     def get_excess_bw(self):
         return self.excess_bw
@@ -327,7 +327,7 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
     def set_excess_bw(self, excess_bw):
         self.excess_bw = excess_bw
         self.set_rrc_taps(firdes.root_raised_cosine(self.nfilts, self.nfilts, 1.0/float(self.sps), self.excess_bw, 11*self.sps*self.nfilts))
-        self.set_rxmod(digital.generic_mod(self.qpsk, False, self.sps, True, self.excess_bw, False, False))
+        self.set_rxmod(digital.generic_mod(self.qpsk, False, self.sps, False, self.excess_bw, False, False))
 
     def get_rxmod(self):
         return self.rxmod
@@ -347,6 +347,7 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
+        self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.low_pass_filter_0_0.set_taps(firdes.low_pass(1, self.samp_rate, self.lpf_cutoff_freq, self.lpf_transition_width, firdes.WIN_HAMMING, 6.76))
         self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, self.lpf_cutoff_freq, self.lpf_transition_width, firdes.WIN_HAMMING, 6.76))
