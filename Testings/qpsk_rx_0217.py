@@ -3,10 +3,8 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Qpsk Rx 0217
-# Generated: Thu Mar  5 17:15:58 2020
+# Generated: Sun Mar 22 17:08:05 2020
 ##################################################
-
-from distutils.version import StrictVersion
 
 if __name__ == '__main__':
     import ctypes
@@ -18,8 +16,7 @@ if __name__ == '__main__':
         except:
             print "Warning: failed to XInitThreads()"
 
-from PyQt5 import Qt
-from PyQt5 import Qt, QtCore
+from PyQt4 import Qt
 from gnuradio import analog
 from gnuradio import audio
 from gnuradio import blocks
@@ -30,7 +27,6 @@ from gnuradio import gr
 from gnuradio import qtgui
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
-from grc_gnuradio import blks2 as grc_blks2
 from optparse import OptionParser
 import sip
 import sys
@@ -61,11 +57,8 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
         self.top_layout.addLayout(self.top_grid_layout)
 
         self.settings = Qt.QSettings("GNU Radio", "qpsk_rx_0217")
+        self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
-        if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
-            self.restoreGeometry(self.settings.value("geometry").toByteArray())
-        else:
-            self.restoreGeometry(self.settings.value("geometry", type=QtCore.QByteArray))
 
         ##################################################
         # Variables
@@ -94,7 +87,7 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
                 fractional_bw=None,
         )
         self.qtgui_time_sink_x_1 = qtgui.time_sink_f(
-        	128, #size
+        	1024*2, #size
         	samp_rate, #samp_rate
         	"", #name
         	1 #number of inputs
@@ -140,7 +133,11 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
             self.qtgui_time_sink_x_1.set_line_alpha(i, alphas[i])
 
         self._qtgui_time_sink_x_1_win = sip.wrapinstance(self.qtgui_time_sink_x_1.pyqwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_time_sink_x_1_win)
+        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_1_win, 1, 0, 1, 2)
+        for r in range(1, 2):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(0, 2):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
         	128, #size
         	samp_rate, #samp_rate
@@ -189,8 +186,10 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
 
         self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_win, 0, 1, 1, 1)
-        [self.top_grid_layout.setRowStretch(r,1) for r in range(0,1)]
-        [self.top_grid_layout.setColumnStretch(c,1) for c in range(1,2)]
+        for r in range(0, 1):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(1, 2):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
         	128, #size
         	"", #name
@@ -232,8 +231,10 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
 
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win, 0, 0, 1, 1)
-        [self.top_grid_layout.setRowStretch(r,1) for r in range(0,1)]
-        [self.top_grid_layout.setColumnStretch(c,1) for c in range(0,1)]
+        for r in range(0, 1):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(0, 1):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.low_pass_filter_0_0 = filter.fir_filter_fff(1, firdes.low_pass(
         	1, samp_rate, lpf_cutoff_freq, lpf_transition_width, firdes.WIN_HAMMING, 6.76))
         self.low_pass_filter_0 = filter.fir_filter_fff(1, firdes.low_pass(
@@ -248,26 +249,18 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
         self.digital_constellation_decoder_cb_0 = digital.constellation_decoder_cb(qpsk)
         self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(2)
         self.blocks_tag_gate_0 = blocks.tag_gate(gr.sizeof_char * 1, False)
-        self.blocks_repack_bits_bb_0_0 = blocks.repack_bits_bb(1, 8, "", False, gr.GR_MSB_FIRST)
+        self.blocks_tag_gate_0.set_single_key("")
         self.blocks_repack_bits_bb_0 = blocks.repack_bits_bb(1, 8, "", False, gr.GR_MSB_FIRST)
         self.blocks_multiply_xx_0_1 = blocks.multiply_vff(1)
         self.blocks_multiply_xx_0_0_0 = blocks.multiply_vff(1)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
-        self.blocks_file_sink_0_0 = blocks.file_sink(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/Testings/Debugs/output2.txt', False)
-        self.blocks_file_sink_0_0.set_unbuffered(False)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/Testings/Debugs/output1.txt', False)
-        self.blocks_file_sink_0.set_unbuffered(False)
         self.blocks_complex_to_mag_squared_0 = blocks.complex_to_mag_squared(1)
         self.blocks_char_to_float_0 = blocks.char_to_float(1, 1)
-        self.blks2_tcp_sink_0 = grc_blks2.tcp_sink(
-        	itemsize=gr.sizeof_char*1,
-        	addr='127.0.0.1',
-        	port=9989,
-        	server=False,
-        )
         self.audio_source_0 = audio.source(44100, '', True)
         self.analog_sig_source_x_0_0 = analog.sig_source_f(samp_rate, analog.GR_SIN_WAVE, carrier_freq, -1, 0)
         self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate, analog.GR_COS_WAVE, carrier_freq, 1, 0)
+
+
 
         ##################################################
         # Connections
@@ -281,11 +274,7 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_float_to_complex_0, 0), (self.rational_resampler_xxx_0, 0))
         self.connect((self.blocks_multiply_xx_0_0_0, 0), (self.low_pass_filter_0_0, 0))
         self.connect((self.blocks_multiply_xx_0_1, 0), (self.low_pass_filter_0, 0))
-        self.connect((self.blocks_repack_bits_bb_0, 0), (self.blks2_tcp_sink_0, 0))
         self.connect((self.blocks_repack_bits_bb_0, 0), (self.blocks_char_to_float_0, 0))
-        self.connect((self.blocks_repack_bits_bb_0, 0), (self.blocks_file_sink_0, 0))
-        self.connect((self.blocks_repack_bits_bb_0_0, 0), (self.blocks_file_sink_0_0, 0))
-        self.connect((self.blocks_tag_gate_0, 0), (self.blocks_repack_bits_bb_0_0, 0))
         self.connect((self.blocks_tag_gate_0, 0), (self.digital_correlate_access_code_xx_ts_1_0_0, 0))
         self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.blocks_tag_gate_0, 0))
         self.connect((self.digital_constellation_decoder_cb_0, 0), (self.digital_diff_decoder_bb_0, 0))
@@ -394,7 +383,8 @@ class qpsk_rx_0217(gr.top_block, Qt.QWidget):
 
 def main(top_block_cls=qpsk_rx_0217, options=None):
 
-    if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
+    from distutils.version import StrictVersion
+    if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')
         Qt.QApplication.setGraphicsSystem(style)
     qapp = Qt.QApplication(sys.argv)
@@ -406,7 +396,7 @@ def main(top_block_cls=qpsk_rx_0217, options=None):
     def quitting():
         tb.stop()
         tb.wait()
-    qapp.aboutToQuit.connect(quitting)
+    qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
     qapp.exec_()
 
 
