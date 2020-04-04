@@ -3,10 +3,8 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Qpsk Tx 0217
-# Generated: Thu Mar  5 17:05:03 2020
+# Generated: Sun Mar 22 22:42:15 2020
 ##################################################
-
-from distutils.version import StrictVersion
 
 if __name__ == '__main__':
     import ctypes
@@ -18,8 +16,7 @@ if __name__ == '__main__':
         except:
             print "Warning: failed to XInitThreads()"
 
-from PyQt5 import Qt
-from PyQt5 import Qt, QtCore
+from PyQt4 import Qt
 from gnuradio import analog
 from gnuradio import blocks
 from gnuradio import digital
@@ -29,6 +26,7 @@ from gnuradio import qtgui
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from optparse import OptionParser
+import pmt
 import sip
 import sys
 from gnuradio import qtgui
@@ -58,11 +56,8 @@ class qpsk_tx_0217(gr.top_block, Qt.QWidget):
         self.top_layout.addLayout(self.top_grid_layout)
 
         self.settings = Qt.QSettings("GNU Radio", "qpsk_tx_0217")
+        self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
-        if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
-            self.restoreGeometry(self.settings.value("geometry").toByteArray())
-        else:
-            self.restoreGeometry(self.settings.value("geometry", type=QtCore.QByteArray))
 
         ##################################################
         # Parameters
@@ -77,6 +72,7 @@ class qpsk_tx_0217(gr.top_block, Qt.QWidget):
         self.sps = sps = 50
         self.nfilts = nfilts = 32
         self.excess_bw = excess_bw = 1
+        self.vec = vec = [0x96,0x85,0x81,0x4a,0xd7,0x2e,0x73,0xe4,0x33,0x33,0x47,0xfc,0x67,0x3f,0x72,0x23,0x44,0x15,0xc0,0x04,0x09,0x13,0x59,0x77]
         self.samp_rate = samp_rate = 44100
         self.rrc_taps = rrc_taps = firdes.root_raised_cosine(nfilts, nfilts, 1.0/float(sps), excess_bw, 11*sps*nfilts)
 
@@ -123,7 +119,7 @@ class qpsk_tx_0217(gr.top_block, Qt.QWidget):
         self.qtgui_waterfall_sink_x_0.set_intensity_range(-140, 10)
 
         self._qtgui_waterfall_sink_x_0_win = sip.wrapinstance(self.qtgui_waterfall_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_waterfall_sink_x_0_win)
+        self.top_grid_layout.addWidget(self._qtgui_waterfall_sink_x_0_win)
         self.qtgui_freq_sink_x_0 = qtgui.freq_sink_f(
         	1024, #size
         	firdes.WIN_BLACKMAN_hARRIS, #wintype
@@ -166,7 +162,7 @@ class qpsk_tx_0217(gr.top_block, Qt.QWidget):
             self.qtgui_freq_sink_x_0.set_line_alpha(i, alphas[i])
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
+        self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_win)
         self.digital_protocol_formatter_bb_0 = digital.protocol_formatter_bb(hdr_format, 'len_key')
         self.digital_constellation_modulator_0 = digital.generic_mod(
           constellation=qpsk,
@@ -178,19 +174,22 @@ class qpsk_tx_0217(gr.top_block, Qt.QWidget):
           log=False,
           )
         self.blocks_wavfile_sink_0 = blocks.wavfile_sink('/home/peter/Desktop/out.wav', 1, samp_rate, 8)
-        self.blocks_vector_source_x_0 = blocks.vector_source_b((0x5b,0x88,0x77,0xf1), True, 1, [])
+        self.blocks_vector_source_x_0 = blocks.vector_source_b(vec, True, 1, [])
         self.blocks_tagged_stream_mux_0_0 = blocks.tagged_stream_mux(gr.sizeof_char*1, 'len_key', 0)
         self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_char*1, 'len_key', 0)
         self.blocks_stream_to_tagged_stream_1 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, 119, "len_key")
-        self.blocks_stream_to_tagged_stream_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, 50, "len_key")
+        self.blocks_stream_to_tagged_stream_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, len(vec), "len_key")
         self.blocks_multiply_xx_0_0 = blocks.multiply_vff(1)
         self.blocks_multiply_xx_0 = blocks.multiply_vff(1)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vff((0.6, ))
         self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/peter/Desktop/acoustic_radio/Testings/test_input.txt', True)
+        self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
         self.blocks_complex_to_float_0 = blocks.complex_to_float(1)
         self.blocks_add_xx_0 = blocks.add_vff(1)
         self.analog_sig_source_x_0_0 = analog.sig_source_f(samp_rate, analog.GR_SIN_WAVE, carrier_freq, -1, 0)
         self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate, analog.GR_COS_WAVE, carrier_freq, 1, 0)
+
+
 
         ##################################################
         # Connections
@@ -260,6 +259,15 @@ class qpsk_tx_0217(gr.top_block, Qt.QWidget):
         self.excess_bw = excess_bw
         self.set_rrc_taps(firdes.root_raised_cosine(self.nfilts, self.nfilts, 1.0/float(self.sps), self.excess_bw, 11*self.sps*self.nfilts))
 
+    def get_vec(self):
+        return self.vec
+
+    def set_vec(self, vec):
+        self.vec = vec
+        self.blocks_vector_source_x_0.set_data(self.vec, [])
+        self.blocks_stream_to_tagged_stream_0.set_packet_len(len(self.vec))
+        self.blocks_stream_to_tagged_stream_0.set_packet_len_pmt(len(self.vec))
+
     def get_samp_rate(self):
         return self.samp_rate
 
@@ -312,7 +320,8 @@ def main(top_block_cls=qpsk_tx_0217, options=None):
     if options is None:
         options, _ = argument_parser().parse_args()
 
-    if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
+    from distutils.version import StrictVersion
+    if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')
         Qt.QApplication.setGraphicsSystem(style)
     qapp = Qt.QApplication(sys.argv)
@@ -324,7 +333,7 @@ def main(top_block_cls=qpsk_tx_0217, options=None):
     def quitting():
         tb.stop()
         tb.wait()
-    qapp.aboutToQuit.connect(quitting)
+    qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
     qapp.exec_()
 
 
