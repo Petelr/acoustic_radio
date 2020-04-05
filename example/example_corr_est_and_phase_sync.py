@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Example Corr Est And Phase Sync
-# Generated: Sun Mar 22 16:58:51 2020
+# GNU Radio version: 3.7.13.5
 ##################################################
 
 if __name__ == '__main__':
@@ -63,7 +63,7 @@ class example_corr_est_and_phase_sync(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.sps = sps = 5
+        self.sps = sps = 15
 
         self.hdr_const = hdr_const = digital.constellation_calcdist((digital.psk_2()[0]), (digital.psk_2()[1]), 2, 1).base()
 
@@ -74,7 +74,6 @@ class example_corr_est_and_phase_sync(gr.top_block, Qt.QWidget):
         self.rrc_taps = rrc_taps = firdes.root_raised_cosine(sps, sps, 1.0, eb, 11*sps)
 
         self.nfilts = nfilts = 32
-        self.mark_delays = mark_delays = [0, 0, 34, 56, 87, 119]
         self.ac_hex = ac_hex = [0xac, 0xdd, 0xa4, 0xe2, 0xf2, 0x8c, 0x20, 0xfc]
         self.time_off = time_off = 1.0
         self.samp_rate = samp_rate = 10e3
@@ -84,7 +83,7 @@ class example_corr_est_and_phase_sync(gr.top_block, Qt.QWidget):
         self.path_loss = path_loss = 10
         self.noise = noise = -50
         self.modulated_sync_word = modulated_sync_word = digital.modulate_vector_bc(rxmod .to_basic_block(), (ac_hex), ([1]))
-        self.mark_delay = mark_delay = mark_delays[sps]
+        self.mark_delays = mark_delays = [0, 0, 34, 56, 87, 119]
         self.freq_off = freq_off = 0.0
         self.filt_delay = filt_delay = 1+(len(rrc_taps)-1)/2
         self.ac = ac = map(lambda x: int(x), list(digital.packet_utils.default_access_code))
@@ -390,9 +389,11 @@ class example_corr_est_and_phase_sync(gr.top_block, Qt.QWidget):
             self.tab1_grid_layout_1.setColumnStretch(c, 1)
         self.interp_fir_filter_xxx_0 = filter.interp_fir_filter_ccc(sps, (rrc_taps))
         self.interp_fir_filter_xxx_0.declare_sample_delay(filt_delay)
+        self.fir_filter_xxx_0 = filter.fir_filter_ccc(3, (1, ))
+        self.fir_filter_xxx_0.declare_sample_delay(0)
         self.digital_pfb_clock_sync_xxx_0 = digital.pfb_clock_sync_ccf(sps, 6.28/400.0, (rx_psf_taps), nfilts, nfilts/2, 1.5, 1)
         self.digital_costas_loop_cc_0_0 = digital.costas_loop_cc(6.28/100.0, hdr_const.arity(), False)
-        self.digital_corr_est_cc_0 = digital.corr_est_cc((modulated_sync_word), sps, mark_delay, 0.999)
+        self.digital_corr_est_cc_0 = digital.corr_est_cc((modulated_sync_word), 5, 500, 0.999)
         self.channels_channel_model_0 = channels.channel_model(
         	noise_voltage=sps * 10.0**(noise/10.0),
         	frequency_offset=freq_off,
@@ -419,7 +420,7 @@ class example_corr_est_and_phase_sync(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.interp_fir_filter_xxx_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.blocks_stream_to_tagged_stream_0, 0))
         self.connect((self.blocks_vector_source_x_0, 0), (self.blocks_multiply_const_vxx_0, 0))
-        self.connect((self.channels_channel_model_0, 0), (self.digital_corr_est_cc_0, 0))
+        self.connect((self.channels_channel_model_0, 0), (self.fir_filter_xxx_0, 0))
         self.connect((self.digital_corr_est_cc_0, 1), (self.blocks_complex_to_mag_squared_0, 0))
         self.connect((self.digital_corr_est_cc_0, 0), (self.digital_pfb_clock_sync_xxx_0, 0))
         self.connect((self.digital_corr_est_cc_0, 1), (self.qtgui_time_sink_x_0_0, 0))
@@ -427,6 +428,7 @@ class example_corr_est_and_phase_sync(gr.top_block, Qt.QWidget):
         self.connect((self.digital_costas_loop_cc_0_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.digital_pfb_clock_sync_xxx_0, 0), (self.digital_costas_loop_cc_0_0, 0))
         self.connect((self.digital_pfb_clock_sync_xxx_0, 0), (self.qtgui_const_sink_x_0_0, 0))
+        self.connect((self.fir_filter_xxx_0, 0), (self.digital_corr_est_cc_0, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.channels_channel_model_0, 0))
 
     def closeEvent(self, event):
@@ -439,7 +441,6 @@ class example_corr_est_and_phase_sync(gr.top_block, Qt.QWidget):
 
     def set_sps(self, sps):
         self.sps = sps
-        self.set_mark_delay(self.mark_delays[self.sps])
         self.set_rxmod(digital.generic_mod(self.hdr_const, False, self.sps, True, self.eb, False, False))
         self.channels_channel_model_0.set_noise_voltage(self.sps * 10.0**(self.noise/10.0))
 
@@ -476,13 +477,6 @@ class example_corr_est_and_phase_sync(gr.top_block, Qt.QWidget):
 
     def set_nfilts(self, nfilts):
         self.nfilts = nfilts
-
-    def get_mark_delays(self):
-        return self.mark_delays
-
-    def set_mark_delays(self, mark_delays):
-        self.mark_delays = mark_delays
-        self.set_mark_delay(self.mark_delays[self.sps])
 
     def get_ac_hex(self):
         return self.ac_hex
@@ -531,12 +525,11 @@ class example_corr_est_and_phase_sync(gr.top_block, Qt.QWidget):
     def set_modulated_sync_word(self, modulated_sync_word):
         self.modulated_sync_word = modulated_sync_word
 
-    def get_mark_delay(self):
-        return self.mark_delay
+    def get_mark_delays(self):
+        return self.mark_delays
 
-    def set_mark_delay(self, mark_delay):
-        self.mark_delay = mark_delay
-        self.digital_corr_est_cc_0.set_mark_delay(self.mark_delay)
+    def set_mark_delays(self, mark_delays):
+        self.mark_delays = mark_delays
 
     def get_freq_off(self):
         return self.freq_off
